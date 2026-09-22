@@ -3372,3 +3372,43 @@ section {
     padding: 20px 18px !important;
   }
 }
+
+/* ==========================================================================
+   Core Web Vitals & Rendering Performance Optimizations
+   ========================================================================== */
+.skills,
+.projects,
+.contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 650px;
+}
+
+/* Tlačítko filtru GitHub Repozitáře */
+.filter-btn[data-filter="github"] {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.filter-btn[data-filter="github"]:hover,
+.filter-btn[data-filter="github"].active {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.28);
+  color: var(--neon-cyan);
+}
+
+/* Podpora prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .player-vinyl-ring,
+  .strip-pulse,
+  .radar-scanline {
+    animation: none !important;
+  }
+}
+

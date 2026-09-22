@@ -3,8 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Osobní web Lukáše Jiránka – Tmavě fialový neonový design, představení, dovednosti a prostor pro budoucí projekty.">
+  <meta name="description" content="Osobní web a dev hub Lukáše Jiránka – Tmavě fialový neonový design, představení, dovednosti, desktopové aplikace a vývojářské projekty.">
+  <meta name="keywords" content="Lukáš Jiránek, MentysTV, Portfolio, Web Developer, Software, Python, JavaScript, Cyber Violet">
+  <meta name="author" content="Lukáš Jiránek">
+  <meta name="theme-color" content="#05040a">
+  <link rel="canonical" href="https://mentystv.github.io/portfolio/">
+
   <title>Lukáš Jiránek | Osobní Web &amp; Dev Hub</title>
+
+  <!-- Cyber Neon SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2305040a'/><circle cx='50' cy='50' r='38' fill='none' stroke='%23a855f7' stroke-width='4'/><path d='M38 35 L23 50 L38 65 M62 35 L77 50 L62 65 M44 68 L56 32' fill='none' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+  <!-- Open Graph / Facebook / Discord preview cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mentystv.github.io/portfolio/">
+  <meta property="og:title" content="Lukáš Jiránek | Cyber Violet Portfolio &amp; Dev Hub">
+  <meta property="og:description" content="Moderní vývojářské portfolio a software hub v temně fialovém kyber-neon stylu. Projekty, desktopové aplikace a živá telemetrie.">
+  <meta property="og:site_name" content="Lukáš.dev">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Lukáš Jiránek | Cyber Violet Portfolio &amp; Dev Hub">
+  <meta name="twitter:description" content="Moderní vývojářské portfolio a software hub v temně fialovém kyber-neon stylu.">
+
+  <!-- Schema.org JSON-LD Structured Data for Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Lukáš Jiránek",
+    "alternateName": "MentysTV",
+    "url": "https://mentystv.github.io/portfolio/",
+    "email": "lukyking3b@seznam.cz",
+    "jobTitle": "Software & Web Developer",
+    "sameAs": [
+      "https://github.com/MentysTV"
+    ],
+    "knowsAbout": ["Web Development", "Python", "JavaScript", "Hardware Telemetry", "B2B Automation"]
+  }
+  </script>
 
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -655,6 +692,10 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
               <span>AI &amp; Skripty</span>
             </button>
+            <button class="filter-btn" data-filter="github" id="filter-btn-github" title="Zobrazit živé veřejné repozitáře z profilu @MentysTV">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              <span>GitHub Repozitáře</span>
+            </button>
           </div>
 
           <div class="projects-actions-right">
@@ -686,7 +727,7 @@
                 <span class="badge" style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.35); font-size: 0.72rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">Aplikace ke stažení</span>
                 <span style="font-size: 0.8rem; color: var(--text-secondary);">Windows &bull; Portable (bez nutnosti instalace)</span>
               </div>
-              <h3 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 6px;">⚡ Cyber PC Monitor v1.0</h3>
+              <h3 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 6px;">Cyber PC Monitor v1.0</h3>
               <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
                 Přenosná aplikace na měření a živé sledování výkonu PC. V reálném čase zobrazuje vytížení CPU i jednotlivých jader, paměť RAM, rychlosti čtení/zápisu disků a síťový tok v temném neonovém designu.
               </p>

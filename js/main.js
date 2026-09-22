@@ -105,7 +105,7 @@ const defaultProjects = [
       "Kompletní specifikace PC a operačního systému",
       "Přenosné provedení – stačí stáhnout a spustit"
     ],
-    github: "https://github.com",
+    github: "https://github.com/MentysTV/portfolio",
     demo: null,
     downloadUrl: "Cyber_PC_Monitor_v1.0.zip"
   }
@@ -238,8 +238,41 @@ function clearAllProjects() {
 }
 
 // ==========================================================================
-// 4. Vykreslování projektů & Živé vyhledávání
+// 4. Vykreslování projektů & Živé vyhledávání & GitHub Repozitáře
 // ==========================================================================
+let gitHubReposCache = null;
+
+async function fetchGitHubRepos() {
+  if (gitHubReposCache) return gitHubReposCache;
+  try {
+    const res = await fetch("https://api.github.com/users/MentysTV/repos?sort=updated&per_page=20");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const repos = await res.json();
+    gitHubReposCache = repos.map(repo => ({
+      id: `gh-${repo.id}`,
+      title: repo.name,
+      category: "github",
+      badge: repo.language || "GitHub",
+      icon: "code",
+      shortDesc: repo.description || `Veřejný repozitář na GitHubu uživatele @MentysTV. Hvězdičky: ${repo.stargazers_count}, forky: ${repo.forks_count}.`,
+      fullDesc: `${repo.description || 'Veřejný kód na profilu MentysTV.'} Vytvořeno: ${new Date(repo.created_at).toLocaleDateString('cs-CZ')}, poslední aktualizace: ${new Date(repo.updated_at).toLocaleDateString('cs-CZ')}. Hlavní jazyk: ${repo.language || 'Neuvedeno'}.`,
+      tags: [repo.language, repo.default_branch ? `Větev: ${repo.default_branch}` : null, `Stars: ${repo.stargazers_count}`, "Open Source"].filter(Boolean),
+      features: [
+        `Výchozí větev: ${repo.default_branch}`,
+        `Počet hvězdiček: ${repo.stargazers_count}`,
+        `Počet forků: ${repo.forks_count}`,
+        `Otevřených issues: ${repo.open_issues_count}`
+      ],
+      github: repo.html_url,
+      demo: repo.homepage || null
+    }));
+    return gitHubReposCache;
+  } catch (err) {
+    console.warn("Nelze načíst GitHub repos:", err);
+    return [];
+  }
+}
+
 function renderProjects(categoryFilter = "all", searchQuery = "") {
   currentCategoryFilter = categoryFilter;
   currentSearchQuery = searchQuery;
@@ -248,11 +281,28 @@ function renderProjects(categoryFilter = "all", searchQuery = "") {
   const counterPill = document.getElementById("project-counter-pill");
   if (!container) return;
 
-  const allProjects = getAllProjects();
-  const query = searchQuery.trim().toLowerCase();
+  if (categoryFilter === "github") {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 45px 20px;">
+        <div class="radar-scanline" style="margin: 0 auto 16px auto; width: 64px; height: 3px; background: var(--neon-cyan);"></div>
+        <p style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.95rem;">Načítám živé veřejné repozitáře z profilu @MentysTV...</p>
+      </div>
+    `;
+    fetchGitHubRepos().then(repos => {
+      displayProjectsList(repos, searchQuery, categoryFilter, container, counterPill);
+    });
+    return;
+  }
 
-  const filtered = allProjects.filter(project => {
-    const matchesCategory = categoryFilter === "all" || project.category === categoryFilter;
+  const allProjects = getAllProjects();
+  displayProjectsList(allProjects, searchQuery, categoryFilter, container, counterPill);
+}
+
+function displayProjectsList(projectsList, searchQuery, categoryFilter, container, counterPill) {
+  const query = (searchQuery || "").trim().toLowerCase();
+
+  const filtered = projectsList.filter(project => {
+    const matchesCategory = categoryFilter === "all" || categoryFilter === "github" || project.category === categoryFilter;
     if (!matchesCategory) return false;
 
     if (!query) return true;
@@ -291,19 +341,19 @@ function renderProjects(categoryFilter = "all", searchQuery = "") {
           </div>
         </div>
         <h3 class="empty-title">
-          ${isSearching ? `Žádné projekty neodpovídají dotazu "${query}"` : "Zatím zde nejsou žádné projekty (0)"}
+          ${isSearching ? `Žádné projekty neodpovídají dotazu "${query}"` : "Zatím zde nejsou žádné projekty"}
         </h3>
         <p class="empty-text">
           ${isSearching 
             ? "Zkus upravit hledaný výraz nebo přepnout kategorii na Všechny." 
-            : "Vše je připraveno na čistém štítě. Můžeš přidat svůj vlastní nový projekt, nebo si jedním klikem načíst ukázková demo data pro náhled rozhraní."}
+            : "Vše je připraveno na čistém štítě. Můžeš přidat svůj vlastní nový projekt, nebo si jedním klikem načíst ukázková demo data."}
         </p>
         <div class="empty-actions">
           <button class="btn btn-primary" id="empty-add-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             <span>Přidat vlastní projekt</span>
           </button>
-          ${!isSearching && allProjects.length === 0 ? `
+          ${!isSearching ? `
             <button class="btn btn-neon-cyan" id="empty-load-demo-btn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
               <span>Načíst ukázková demo data</span>
@@ -314,7 +364,7 @@ function renderProjects(categoryFilter = "all", searchQuery = "") {
     `;
 
     document.getElementById("empty-add-btn")?.addEventListener("click", () => {
-      openAddProjectModal(categoryFilter !== "all" ? categoryFilter : "software");
+      openAddProjectModal(categoryFilter !== "all" && categoryFilter !== "github" ? categoryFilter : "software");
     });
 
     document.getElementById("empty-load-demo-btn")?.addEventListener("click", () => {
@@ -350,8 +400,9 @@ function renderProjects(categoryFilter = "all", searchQuery = "") {
         </a>`
       : "";
 
-    const isCustomOrDemo = true;
-    const deleteBtn = `<button class="project-btn delete-custom-btn" data-delete-id="${project.id}" title="Odstranit tento projekt">
+    const isGitHubItem = project.category === "github";
+    const deleteBtn = isGitHubItem ? "" : `
+      <button class="project-btn delete-custom-btn" data-delete-id="${project.id}" title="Odstranit tento projekt">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4"></path></svg>
       </button>`;
 
@@ -415,6 +466,7 @@ function getCategoryLabel(cat) {
     case "tools": return "Nástroj / CLI";
     case "games": return "Hra & Grafika";
     case "ai": return "AI & Skript";
+    case "github": return "GitHub Repozitář";
     default: return "Projekt";
   }
 }
@@ -1169,7 +1221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 22. Kontaktní formulář
+  // 22. Kontaktní formulář s bezpečným propojením na e-mail & zálohou do schránky
   const contactForm = document.getElementById("contact-form");
   const formAlert = document.getElementById("form-alert");
   if (contactForm && formAlert) {
@@ -1178,25 +1230,73 @@ document.addEventListener("DOMContentLoaded", () => {
       const submitBtn = contactForm.querySelector("button[type='submit']");
       const originalText = submitBtn.innerHTML;
 
+      const name = (document.getElementById("name")?.value || "").trim();
+      const email = (document.getElementById("email")?.value || "").trim();
+      const message = (document.getElementById("message")?.value || "").trim();
+
       submitBtn.disabled = true;
-      submitBtn.innerHTML = "<span>Odesílám zprávu...</span>";
+      submitBtn.innerHTML = "<span>Příprava odeslání...</span>";
+
+      // Zkopírování do schránky jako bezpečnostní záloha, aby návštěvník nepřišel o text
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(`Odesílatel: ${name} (${email})\n\n${message}`).catch(() => {});
+      }
+
+      // Příprava mailto odkazu přímo na lukyking3b@seznam.cz
+      const subject = encodeURIComponent(`Zpráva z webu od: ${name}`);
+      const body = encodeURIComponent(`Ahoj Lukáši,\n\n${message}\n\n---\nOdesláno z webu: ${name} (${email})`);
+      const mailtoUrl = `mailto:lukyking3b@seznam.cz?subject=${subject}&body=${body}`;
 
       setTimeout(() => {
         formAlert.style.display = "block";
         formAlert.className = "form-alert success";
-        formAlert.innerHTML = "<strong>Zpráva odeslána.</strong> Děkuji za vzkaz, brzy se ozvu zpět.";
+        formAlert.innerHTML = `<strong>Zpráva připravena!</strong> Otevírám váš e-mailový program k odeslání na <code>lukyking3b@seznam.cz</code>. Text byl pro jistotu zkopírován i do schránky.`;
+
+        window.location.href = mailtoUrl;
+
         contactForm.reset();
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
-        showToast("Zpráva byla úspěšně odeslána.", "check");
+        showToast("Zpráva připravena k odeslání!", "check");
         playCyberTone(659.25, 0.1, "sine");
 
         setTimeout(() => {
           formAlert.style.display = "none";
-        }, 5000);
-      }, 600);
+        }, 8000);
+      }, 400);
     });
   }
+
+  // 23. Klávesové zkratky (Cyber Keybindings)
+  window.addEventListener("keydown", (e) => {
+    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+    const isTyping = activeTag === "input" || activeTag === "textarea" || activeTag === "select";
+
+    // Klávesa / pro rychlé vyhledávání v projektech
+    if (e.key === "/" && !isTyping) {
+      e.preventDefault();
+      const searchInput = document.getElementById("project-search-input");
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.select();
+        showToast("Vyhledávání projektů aktivováno [/]", "info");
+      }
+    }
+
+    // Mezerník pro Play / Pause hudebního přehrávače
+    if (e.code === "Space" && !isTyping) {
+      const playBtn = document.getElementById("btn-main-play");
+      if (playBtn) {
+        e.preventDefault();
+        playBtn.click();
+      }
+    }
+
+    // Klávesa Escape pro zavření otevřených dialogů
+    if (e.key === "Escape") {
+      document.querySelectorAll("dialog[open]").forEach(dialog => dialog.close());
+    }
+  });
 
   // Inicializace kybernetického hudebního přehrávače
   initCyberPlayer();

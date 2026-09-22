@@ -1,10 +1,12 @@
 # Sensitive files & credentials
 send_outreach.py
+check_replies.py
 odeslane_emaily.log
 *.log
 .env
 *OUTREACH*.bat
 *ODESLANI*.bat
+*ODPOVEDI*.bat
 
 # Contact databases & client data
 kupci_agentury.csv
