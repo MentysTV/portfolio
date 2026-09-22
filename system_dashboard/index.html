@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER PC MONITOR // LIVE TELEMETRY & HARDWARE DASHBOARD</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23a855f7%22><path d=%22M13 2L3 14h9l-1 8 10-12h-9l1-8z%22/></svg>">
+</head>
+<body>
+
+  <!-- =========================================================================
+       APP HEADER
+       ========================================================================= -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+      </div>
+      <div class="brand-title">
+        <h1>CYBER PC MONITOR <span class="brand-badge">PRO TELEMETRY</span></h1>
+        <span class="brand-sub">Živý monitor výkonu počítače (CPU, RAM, Disky, Síť & Procesy)</span>
+      </div>
+    </div>
+
+    <div class="header-telemetry">
+      <div class="live-pill">
+        <span class="live-dot"></span>
+        <span>LIVE TELEMETRY</span>
+      </div>
+      <div class="uptime-badge" title="Doba běhu systému">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Uptime:</span>
+        <strong id="uptime-display">00:00:00</strong>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="uptime-badge cpu-model-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+          <rect x="9" y="9" width="6" height="6"></rect>
+          <line x1="9" y1="1" x2="9" y2="4"></line>
+          <line x1="15" y1="1" x2="15" y2="4"></line>
+          <line x1="9" y1="20" x2="9" y2="23"></line>
+          <line x1="15" y1="20" x2="15" y2="23"></line>
+          <line x1="20" y1="9" x2="23" y2="9"></line>
+          <line x1="20" y1="15" x2="23" y2="15"></line>
+          <line x1="1" y1="9" x2="4" y2="9"></line>
+          <line x1="1" y1="15" x2="4" y2="15"></line>
+        </svg>
+        <strong id="header-cpu-name">Procesor</strong>
+      </div>
+
+      <button class="btn-quick-clean" id="btn-open-hogs" title="Rychlé vyčištění náročných procesů">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+        </svg>
+        <span>Vyčistit systém</span>
+      </button>
+
+      <div class="select-wrapper">
+        <select class="select-control" id="refresh-rate-select" title="Frekvence obnovy dat">
+          <option value="500">500 ms (Rychle)</option>
+          <option value="1000" selected>1 s (Standard)</option>
+          <option value="2000">2 s (Šetrně)</option>
+          <option value="0">Pozastavit</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       NAVIGATION TABS
+       ========================================================================= -->
+  <nav class="nav-tabs-bar">
+    <button class="nav-tab active" data-tab="overview">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+      </svg>
+      <span>Telemetrie & Výkon</span>
+    </button>
+    <button class="nav-tab" data-tab="processes">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+      </svg>
+      <span>Správce procesů</span>
+      <span class="badge" id="badge-total-procs">0</span>
+    </button>
+    <button class="nav-tab" data-tab="connections">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+      <span>Síťová spojení</span>
+      <span class="badge" id="badge-total-conns">0</span>
+    </button>
+    <button class="nav-tab" data-tab="specs">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+        <rect x="9" y="9" width="6" height="6"></rect>
+        <line x1="9" y1="1" x2="9" y2="4"></line>
+        <line x1="15" y1="1" x2="15" y2="4"></line>
+        <line x1="9" y1="20" x2="9" y2="23"></line>
+        <line x1="15" y1="20" x2="15" y2="23"></line>
+        <line x1="20" y1="9" x2="23" y2="9"></line>
+        <line x1="20" y1="15" x2="23" y2="15"></line>
+        <line x1="1" y1="9" x2="4" y2="9"></line>
+        <line x1="1" y1="15" x2="4" y2="15"></line>
+      </svg>
+      <span>Specifikace systému</span>
+    </button>
+  </nav>
+
+  <!-- =========================================================================
+       MAIN APPLICATION WORKSPACE
+       ========================================================================= -->
+  <main class="app-container">
+
+    <!-- =====================================================================
+         TAB 1: TELEMETRY & PERFORMANCE
+         ===================================================================== -->
+    <section class="tab-content active" id="tab-overview">
+      
+      <!-- Top 4 KPI Metrics -->
+      <div class="overview-grid">
+        
+        <!-- CPU Card -->
+        <div class="glass-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+              </svg>
+              Procesor (CPU)
+            </span>
+            <span class="kpi-badge" id="kpi-cpu-freq">0.0 GHz</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-number" id="kpi-cpu-val">0</span>
+            <span class="kpi-unit">%</span>
+            <span class="kpi-subtext" id="kpi-cpu-status">V normě</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill fill-cpu" id="kpi-cpu-fill"></div>
+          </div>
+          <div class="kpi-details-row">
+            <span>Zátěž: <strong id="kpi-cpu-procs">0 procesů</strong></span>
+            <span id="kpi-cpu-cores-text">12 jader</span>
+          </div>
+        </div>
+
+        <!-- RAM Card -->
+        <div class="glass-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <line x1="6" y1="10" x2="6" y2="14"></line>
+                <line x1="10" y1="10" x2="10" y2="14"></line>
+                <line x1="14" y1="10" x2="14" y2="14"></line>
+                <line x1="18" y1="10" x2="18" y2="14"></line>
+              </svg>
+              Operační paměť (RAM)
+            </span>
+            <span class="kpi-badge" id="kpi-swap-val">0% swap</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-number" id="kpi-ram-val">0</span>
+            <span class="kpi-unit">%</span>
+            <span class="kpi-subtext" id="kpi-ram-avail" style="color:var(--cyan-400);">0 GB volno</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill fill-ram" id="kpi-ram-fill"></div>
+          </div>
+          <div class="kpi-details-row">
+            <span>Využito: <strong id="kpi-ram-used">0 GB</strong></span>
+            <span id="kpi-ram-total-text">z celkem 16 GB</span>
+          </div>
+        </div>
+
+        <!-- Disky Card -->
+        <div class="glass-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="12" x2="2" y2="12"></line>
+                <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                <line x1="6" y1="16" x2="6.01" y2="16"></line>
+                <line x1="10" y1="16" x2="10.01" y2="16"></line>
+              </svg>
+              Úložiště & Disky
+            </span>
+            <span class="kpi-badge badge-emerald">SSD / HDD</span>
+          </div>
+          <div class="kpi-value-row" style="margin-bottom: 8px;">
+            <div class="io-rates-col">
+              <div class="io-rate-row">
+                <span class="rate-label rate-read">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  Čtení dat:
+                </span>
+                <strong id="kpi-disk-read" class="rate-val">0 KB/s</strong>
+              </div>
+              <div class="io-rate-row">
+                <span class="rate-label rate-write">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 14 12 9 7 14"></polyline><line x1="12" y1="21" x2="12" y2="9"></line></svg>
+                  Zápis dat:
+                </span>
+                <strong id="kpi-disk-write" class="rate-val">0 KB/s</strong>
+              </div>
+            </div>
+          </div>
+          <div id="drives-list" class="drives-list">
+            <!-- Dynamic Drives inserted via JS -->
+          </div>
+        </div>
+
+        <!-- Network Card -->
+        <div class="glass-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              Internet & Síť
+            </span>
+            <span class="kpi-badge" id="kpi-net-adapter">LAN</span>
+          </div>
+          <div class="kpi-value-row" style="margin-bottom: 8px;">
+            <div class="io-rates-col">
+              <div class="io-rate-row">
+                <span class="rate-label rate-down">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  Stahování:
+                </span>
+                <strong id="kpi-net-recv" class="rate-val">0 KB/s</strong>
+              </div>
+              <div class="io-rate-row">
+                <span class="rate-label rate-up">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 14 12 9 7 14"></polyline><line x1="12" y1="21" x2="12" y2="9"></line></svg>
+                  Odesílání:
+                </span>
+                <strong id="kpi-net-sent" class="rate-val">0 KB/s</strong>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-details-row" style="margin-top:auto;">
+            <span>Stav: <strong style="color:var(--emerald-400);">Aktivní adaptér</strong></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Real-Time Hardware Canvas Graphs -->
+      <div class="charts-grid">
+        
+        <!-- CPU Chart -->
+        <div class="glass-card chart-card">
+          <div class="chart-header">
+            <span class="chart-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Historie vytížení procesoru (60 sekund)
+            </span>
+            <div class="chart-legend">
+              <span class="legend-item">
+                <span class="legend-dot" style="background:var(--violet-400);"></span>
+                <span>CPU %</span>
+              </span>
+            </div>
+          </div>
+          <div class="chart-canvas-container">
+            <canvas id="canvas-cpu"></canvas>
+          </div>
+        </div>
+
+        <!-- RAM Chart -->
+        <div class="glass-card chart-card">
+          <div class="chart-header">
+            <span class="chart-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Historie využití paměti RAM (60 sekund)
+            </span>
+            <div class="chart-legend">
+              <span class="legend-item">
+                <span class="legend-dot" style="background:var(--cyan-400);"></span>
+                <span>RAM %</span>
+              </span>
+            </div>
+          </div>
+          <div class="chart-canvas-container">
+            <canvas id="canvas-ram"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Per-Core Visualizer & Network IO Chart -->
+      <div class="telemetry-bottom-grid">
+        
+        <!-- Per Core Meters -->
+        <div class="glass-card">
+          <div class="kpi-header">
+            <span class="kpi-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="8" rx="2"></rect>
+                <rect x="2" y="14" width="20" height="8" rx="2"></rect>
+                <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                <line x1="6" y1="18" x2="6.01" y2="18"></line>
+              </svg>
+              Vytížení jader CPU (Per-Core Telemetry)
+            </span>
+          </div>
+          <div class="cores-grid" id="cores-grid">
+            <!-- Dynamic Cores inserted by JS -->
+          </div>
+        </div>
+
+        <!-- Network Transfer Live Graph -->
+        <div class="glass-card chart-card" style="height:auto;min-height:220px;">
+          <div class="chart-header">
+            <span class="chart-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+              Síťový tok (I/O Rychlost)
+            </span>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot" style="background:var(--cyan-400);"></span> Down</span>
+              <span class="legend-item"><span class="legend-dot" style="background:var(--violet-400);"></span> Up</span>
+            </div>
+          </div>
+          <div class="chart-canvas-container">
+            <canvas id="canvas-net"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         TAB 2: PROCESS MANAGER
+         ===================================================================== -->
+    <section class="tab-content" id="tab-processes">
+      
+      <!-- Process Toolbar -->
+      <div class="process-toolbar">
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="search-input" id="process-search-input" placeholder="Hledat proces podle názvu nebo PID... (Klávesa '/')">
+        </div>
+
+        <div class="filter-pills">
+          <button class="filter-pill active" data-filter="all">Všechny procesy</button>
+          <button class="filter-pill" data-filter="high_cpu">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            Vysoké CPU (&gt;2%)
+          </button>
+          <button class="filter-pill" data-filter="high_mem">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="6" y1="10" x2="6" y2="14"></line></svg>
+            Vysoká RAM (&gt;150MB)
+          </button>
+        </div>
+
+        <div class="bulk-actions" id="bulk-actions-bar">
+          <span style="font-size:0.8rem;color:var(--text-secondary);">Vybráno: <strong id="bulk-selected-count">0</strong></span>
+          <button class="btn btn-danger" id="btn-bulk-kill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            Ukončit vybrané
+          </button>
+          <button class="btn btn-secondary" id="btn-bulk-cancel">Zrušit výběr</button>
+        </div>
+      </div>
+
+      <!-- Process Table -->
+      <div class="table-container">
+        <table class="cyber-table">
+          <thead>
+            <tr>
+              <th style="width:40px;"></th>
+              <th data-sort="pid">PID</th>
+              <th data-sort="name">Název procesu</th>
+              <th data-sort="cpu" class="sorted-desc">CPU %</th>
+              <th data-sort="memory">RAM (MB)</th>
+              <th>RAM %</th>
+              <th>Vlákna</th>
+              <th>Uživatel</th>
+              <th style="text-align:right;">Akce</th>
+            </tr>
+          </thead>
+          <tbody id="process-table-body">
+            <!-- Dynamic Process Rows -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         TAB 3: NETWORK CONNECTIONS
+         ===================================================================== -->
+    <section class="tab-content" id="tab-connections">
+      
+      <div class="table-container">
+        <table class="cyber-table">
+          <thead>
+            <tr>
+              <th>Typ</th>
+              <th>Místní adresa:port</th>
+              <th>Vzdálená adresa:port</th>
+              <th>Stav spojení</th>
+              <th>PID</th>
+              <th>Název procesu</th>
+              <th style="text-align:right;">Akce</th>
+            </tr>
+          </thead>
+          <tbody id="connections-table-body">
+            <!-- Dynamic Connection Rows -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         TAB 4: SYSTEM SPECS
+         ===================================================================== -->
+    <section class="tab-content" id="tab-specs">
+      
+      <div class="glass-card specs-card-container">
+        <div class="kpi-header" style="margin-bottom:16px;">
+          <span class="kpi-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+            </svg>
+            Hardwarové a systémové parametry
+          </span>
+        </div>
+        <div id="system-specs-container">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       MODAL: PROCESS DETAILS
+       ========================================================================= -->
+  <div class="modal-overlay" id="process-detail-modal">
+    <div class="cyber-modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-proc-name">Detail procesu</h2>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-proc-body">
+        <!-- Process info items -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close">Zavřít</button>
+        <button class="btn btn-danger" id="modal-proc-kill-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Ukončit tento proces
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: CLEAN HOGS (RYCHLÉ VYČIŠTĚNÍ)
+       ========================================================================= -->
+  <div class="modal-overlay" id="hogs-modal">
+    <div class="cyber-modal">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--rose-400)" stroke-width="2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+          <h2 class="modal-title">Rychlé vyčištění systému</h2>
+        </div>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:14px;">
+          Níže jsou uvedeny nejnáročnější procesy spotřebovávající vysoké množství CPU nebo paměti RAM. Systémové procesy jsou automaticky chráněny.
+        </p>
+        <div id="hogs-list-container">
+          <!-- Hog list -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close">Zrušit</button>
+        <button class="btn btn-danger" id="btn-kill-hogs-confirm">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Ukončit vybrané procesy
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       TOAST NOTIFICATIONS CONTAINER
+       ========================================================================= -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Dashboard Script -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

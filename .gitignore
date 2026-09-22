@@ -1,0 +1,29 @@
+# Sensitive files & credentials
+send_outreach.py
+odeslane_emaily.log
+*.log
+.env
+*OUTREACH*.bat
+*ODESLANI*.bat
+
+# Contact databases & client data
+kupci_agentury.csv
+ukazka_zdarma.csv
+*.csv
+
+# Python cache & build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+system_dashboard/build/
+system_dashboard/dist/
+system_dashboard/__pycache__/
+*.spec
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

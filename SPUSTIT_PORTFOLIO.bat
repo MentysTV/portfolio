@@ -1,0 +1,6 @@
+@echo off
+title CYBER VIOLET PORTFOLIO // LAUNCHER
+chcp 65001 >nul
+cd /d "%~dp0"
+start "" "index.html"
+exit

@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Osobní web Lukáše Jiránka – Tmavě fialový neonový design, představení, dovednosti a prostor pro budoucí projekty.">
+  <title>Lukáš Jiránek | Osobní Web &amp; Dev Hub</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Plovoucí ukazatel scrollu nahoře (Scroll Progress Bar) -->
+  <div class="scroll-progress-bar" id="scroll-progress-bar"></div>
+
+  <!-- =========================================================================
+       1. Header & Navigace
+       ========================================================================= -->
+  <header class="header" id="main-header">
+    <div class="container header-container">
+      <a href="#home" class="logo">
+        <span class="logo-glow"></span>
+        <span class="logo-tag">&lt;/&gt;</span>
+        <span class="logo-text">Lukáš<span class="neon-dot">.</span>dev</span>
+      </a>
+
+      <!-- Hlavní odkazy menu -->
+      <nav class="nav" id="nav-menu">
+        <a href="#home" class="nav-link active">Domů</a>
+        <a href="#about" class="nav-link">O mně</a>
+        <a href="#skills" class="nav-link">Dovednosti</a>
+        <a href="#projects" class="nav-link">Projekty</a>
+        <a href="#contact" class="nav-link">Kontakt</a>
+        
+        <!-- Mobilní tlačítko přihlášení -->
+        <div class="mobile-nav-auth">
+          <button class="btn btn-neon-outline btn-sm mobile-auth-btn" id="mobile-auth-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            <span>Přihlásit se</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Pravá část hlavičky: Audio FX + GitHub + Auth -->
+      <div class="header-actions">
+        <!-- Odkaz na Spotify Playlist v O mně -->
+        <a href="#spotify-player" class="btn-spotify-pill" id="btn-spotify-header" title="Hudební přehrávač P T K">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 5.4-12 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          <span>Spotify</span>
+        </a>
+
+        <!-- Tlačítko průvodce GitHub Pages -->
+        <button class="btn-github-pill" id="btn-open-github-guide" title="Jak mít web online 24/7 na GitHubu zdarma">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <span>GitHub Online</span>
+        </button>
+
+        <!-- Nepřihlášený stav -->
+        <button class="btn btn-neon-outline btn-auth" id="btn-open-auth">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+          <span>Přihlásit se</span>
+        </button>
+
+        <!-- Přihlášený stav (uživatelský profil s dropdownem) -->
+        <div class="user-pill-container" id="user-pill-container" style="display: none;">
+          <button class="user-pill" id="user-profile-toggle" aria-haspopup="true" aria-expanded="false">
+            <div class="user-avatar-wrap">
+              <img src="" id="user-avatar" class="user-avatar" alt="Avatar" />
+              <span class="user-online-badge"></span>
+            </div>
+            <span class="user-name" id="user-display-name">Vývojář</span>
+            <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- Rozbalovací menu uživatele -->
+          <div class="user-dropdown" id="user-dropdown">
+            <div class="user-dropdown-header">
+              <div class="dropdown-avatar-wrap">
+                <img src="" id="dropdown-avatar" class="user-avatar" alt="Avatar" />
+              </div>
+              <div class="dropdown-user-meta">
+                <div class="user-dropdown-name" id="dropdown-full-name">Lukáš Jiránek</div>
+                <div class="user-dropdown-email" id="dropdown-email">dev@gmail.com</div>
+                <span class="user-role-badge" id="dropdown-badge">Google Verified</span>
+              </div>
+            </div>
+            <div class="user-dropdown-divider"></div>
+            <button class="user-dropdown-item" id="btn-dropdown-add-project">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Přidat nový projekt</span>
+            </button>
+            <button class="user-dropdown-item" id="btn-dropdown-github-guide">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>Návod: Web nonstop na GitHubu</span>
+            </button>
+            <div class="user-dropdown-divider"></div>
+            <button class="user-dropdown-item logout-item" id="btn-logout">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Odhlásit se</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobilní toggle hamburger -->
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Otevřít menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         Horní lišta kategorií pro rychlý skok (Quick Category Jump Bar)
+         Klikneš na kategorii a hned tě to na ni plynule mrskne a vyfiltruje!
+         ========================================================================= -->
+    <div class="category-strip" id="category-strip">
+      <div class="container category-strip-inner">
+        <span class="strip-label">
+          <span class="strip-pulse"></span>
+          Kategorie:
+        </span>
+        <div class="strip-buttons" id="strip-buttons">
+          <button class="strip-btn active" data-category="all">
+            <span class="strip-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </span>
+            <span>Všechny projekty</span>
+          </button>
+          <button class="strip-btn" data-category="software">
+            <span class="strip-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            </span>
+            <span>Software &amp; Aplikace</span>
+          </button>
+          <button class="strip-btn" data-category="web">
+            <span class="strip-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </span>
+            <span>Web &amp; Frontend</span>
+          </button>
+          <button class="strip-btn" data-category="tools">
+            <span class="strip-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </span>
+            <span>Nástroje &amp; CLI</span>
+          </button>
+          <button class="strip-btn" data-category="games">
+            <span class="strip-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="2"></rect></svg>
+            </span>
+            <span>Hry &amp; Grafika</span>
+          </button>
+          <button class="strip-btn" data-category="ai">
+            <span class="strip-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+            </span>
+            <span>AI &amp; Automatizace</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================================================
+         2. Uvítací sekce Domů (Welcome Landing + Cyber HUD)
+         ========================================================================= -->
+    <section class="hero hero-welcome" id="home">
+      <div class="hero-bg-lights">
+        <div class="light-orb light-purple"></div>
+        <div class="light-orb light-cyan"></div>
+        <div class="light-orb light-purple-subtle"></div>
+      </div>
+
+      <div class="container hero-welcome-container">
+        <div class="welcome-box scroll-reveal">
+          <div class="welcome-pill">
+            <span class="cyber-pulse-dot"></span>
+            <span>SYSTEM STATUS // ONLINE &bull; DEV HUB</span>
+          </div>
+
+          <h1 class="welcome-main-title">
+            Vítej na mém webu, <br>
+            <span class="gradient-text neon-glow-text">jsem Lukáš Jiránek</span>.
+          </h1>
+
+          <p class="welcome-desc-text">
+            Tento web slouží jako moje osobní platforma a centrální prostor pro vše, co tvořím. 
+            Můžeš si prohlédnout informace o mně, mých dovednostech a postupně sem budeme nahrávat všechny nově vytvořené projekty, software a aplikace.
+          </p>
+
+          <div class="welcome-btn-group">
+            <a href="Cyber_PC_Monitor_v1.0.zip" download class="btn btn-primary" style="box-shadow: 0 0 20px rgba(139,92,246,0.45);" title="Stáhnout aplikaci pro PC">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Stáhnout Cyber PC Monitor (.zip)</span>
+            </a>
+            <a href="#projects" class="btn btn-neon-cyan">
+              <span>Sekce projektů</span>
+            </a>
+            <a href="#about" class="btn btn-outline">
+              <span>O mně</span>
+            </a>
+          </div>
+
+          <!-- Cyber HUD Telemetry Bar -->
+          <div class="cyber-hud-bar">
+            <div class="hud-item">
+              <span class="hud-label">STACK</span>
+              <span class="hud-value">FULL-DEV // MODERN</span>
+            </div>
+            <div class="hud-divider"></div>
+            <div class="hud-item">
+              <span class="hud-label">TIME</span>
+              <span class="hud-value hud-clock" id="cyber-hud-clock">--:--:--</span>
+            </div>
+            <div class="hud-divider"></div>
+            <div class="hud-item">
+              <span class="hud-label">HOSTING</span>
+              <span class="hud-value text-neon-cyan">GITHUB 24/7</span>
+            </div>
+            <div class="hud-divider"></div>
+            <div class="hud-item">
+              <span class="hud-label">CORE</span>
+              <span class="hud-value text-neon-green">ACTIVE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 elegantní uvítací karty s SVG ikonami (bez emoji) -->
+        <div class="welcome-cards-grid">
+          <div class="welcome-feature-card scroll-reveal" style="--delay: 0.1s;">
+            <div class="feat-icon-bubble purple-bubble">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </div>
+            <h3>Vývoj &amp; Technologie</h3>
+            <p>Zájem o software, moderní webové aplikace, čistý kód a funkční architekturu.</p>
+          </div>
+
+          <div class="welcome-feature-card scroll-reveal" style="--delay: 0.2s;">
+            <div class="feat-icon-bubble cyan-bubble">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <h3>Projekty připravené k nahrání</h3>
+            <p>Sekce projektů je čistě připravená. Projekty sem můžeme jednoduše vkládat za chodu.</p>
+          </div>
+
+          <div class="welcome-feature-card scroll-reveal" style="--delay: 0.3s;">
+            <div class="feat-icon-bubble magenta-bubble">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <h3>Přihlášení &amp; Účet</h3>
+            <p>Možnost okamžitého přihlášení přes Google účet nebo vytvoření vlastního profilu.</p>
+          </div>
+        </div>
+
+        <!-- Indikátor pro posun dolů -->
+        <div class="scroll-down-hint scroll-reveal">
+          <a href="#about" class="scroll-down-link" aria-label="Posunout dolů na sekci O mně">
+            <span class="hint-text">Posuň dolů</span>
+            <div class="hint-arrow">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         3. Sekce O mně (Stručné představení, prostor pro fotku & Spotify playlist)
+         ========================================================================= -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-badge">Představení</span>
+          <h2 class="section-title">O mně a mém zaměření</h2>
+          <p class="section-subtitle">Osobní profil, prostor pro fotku a integrovaný hudební přehrávač.</p>
+        </div>
+
+        <div class="about-layout-grid">
+          <!-- Levý sloupec: Prostor pro fotku + Cyber Hudební Přehrávač -->
+          <div class="about-media-col scroll-reveal" style="--delay: 0.1s;">
+            <!-- Rám pro fotografii připravený pro vložení tvé fotky -->
+            <div class="profile-photo-frame" id="profile-photo-frame">
+              <div class="photo-ambient-glow"></div>
+              <div class="photo-corner corner-tl"></div>
+              <div class="photo-corner corner-tr"></div>
+              <div class="photo-corner corner-bl"></div>
+              <div class="photo-corner corner-br"></div>
+              
+              <div class="photo-wrapper">
+                <img src="" id="user-profile-image" class="profile-actual-img" alt="Lukáš Jiránek" style="display: none;">
+                <div class="photo-placeholder-content" id="photo-placeholder">
+                  <div class="placeholder-cyber-avatar">
+                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </div>
+                  <span class="placeholder-label">PROSTOR PRO FOTKU</span>
+                  <span class="placeholder-sublabel">Až pošleš fotku, hned ji sem vložíme</span>
+                </div>
+              </div>
+
+              <div class="photo-status-pill">
+                <span class="status-live-dot"></span>
+                <span>STATUS // DEV READY</span>
+              </div>
+            </div>
+
+            <!-- Kybernetický hudební přehrávač s dynamickým čtvercem a ovládáním hlasitosti -->
+            <div class="cyber-player-card" id="spotify-player">
+              <!-- Horní lišta přehrávače -->
+              <div class="player-top-bar">
+                <div class="player-source-tag">
+                  <span class="status-live-dot" id="player-live-dot"></span>
+                  <span class="tag-title">AUDIO // P T K</span>
+                </div>
+                <div class="player-top-right">
+                  <a href="https://open.spotify.com/playlist/37i9dQZF1DZ06evO37tkas?si=ded2d49ee8174476" target="_blank" rel="noopener noreferrer" class="spotify-direct-link" title="Otevřít playlist na Spotify">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#1ed760"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 5.4-12 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                    <span>Spotify</span>
+                  </a>
+                  <div class="spotify-eq-bars" id="player-eq-bars">
+                    <span class="eq-bar bar-1"></span>
+                    <span class="eq-bar bar-2"></span>
+                    <span class="eq-bar bar-3"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PŘEHRÁVAJÍCÍ ČTVEREC (Enlarged Cyber Square with Dynamic Track Artwork) -->
+              <div class="player-cover-square" id="player-cover-square">
+                <div class="square-ambient-aura"></div>
+                <div class="photo-corner corner-tl"></div>
+                <div class="photo-corner corner-tr"></div>
+                <div class="photo-corner corner-bl"></div>
+                <div class="photo-corner corner-br"></div>
+                
+                <!-- Holografický rotující vinyl kruh při přehrávání -->
+                <div class="player-vinyl-ring" id="player-vinyl-ring"></div>
+
+                <!-- Dynamický obrázek aktuálního tracku -->
+                <img id="player-cover-img" class="player-cover-img" src="https://i.scdn.co/image/ab67616d0000b2739b984ae66034d41264ddc29a" alt="Track Cover" />
+
+                <!-- Gradientní zatmavení ve spodní části -->
+                <div class="cover-overlay-gradient"></div>
+
+                <!-- Středové Play/Pause tlačítko -->
+                <button class="cover-center-play-btn" id="cover-play-btn" title="Přehrát / Pozastavit">
+                  <svg class="icon-play" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                  </svg>
+                  <svg class="icon-pause" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                  </svg>
+                </button>
+
+                <!-- Status v rohu čtverce -->
+                <div class="cover-status-badge" id="cover-status-badge">
+                  <span class="status-indicator"></span>
+                  <span id="cover-status-text">PŘIPRAVENO</span>
+                </div>
+              </div>
+
+              <!-- Informace o tracku -->
+              <div class="player-track-meta">
+                <h4 class="player-track-name" id="player-track-name">KURVY V POZORU</h4>
+                <div class="player-artist-row">
+                  <span class="player-artist-name">P T K</span>
+                  <span class="cyber-sep">//</span>
+                  <span class="player-track-index" id="player-track-index">Track 1 z 12</span>
+                </div>
+              </div>
+
+              <!-- Časová osa / Scrubber bar -->
+              <div class="player-scrubber-row">
+                <span class="player-time" id="player-curr-time">0:00</span>
+                <div class="player-progress-track" id="player-progress-track" title="Kliknutím přeskočit">
+                  <div class="player-progress-fill" id="player-progress-fill" style="width: 0%;"></div>
+                  <div class="player-progress-thumb" id="player-progress-thumb" style="left: 0%;"></div>
+                </div>
+                <span class="player-time" id="player-total-time">0:30</span>
+              </div>
+
+              <!-- Hlavní ovládací tlačítka -->
+              <div class="player-controls-row">
+                <button class="ctrl-btn" id="btn-prev-track" title="Předchozí track">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                    <line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5"></line>
+                  </svg>
+                </button>
+
+                <button class="ctrl-btn ctrl-btn-play" id="btn-main-play" title="Přehrát / Zastavit">
+                  <svg class="icon-play" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                  </svg>
+                  <svg class="icon-pause" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                  </svg>
+                </button>
+
+                <button class="ctrl-btn" id="btn-next-track" title="Další track">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                    <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- OVLÁDÁNÍ HLASITOSTI (Volume Slider + Mute + Procenta) -->
+              <div class="player-volume-section">
+                <button class="volume-mute-btn" id="btn-player-mute" title="Ztlumit / Zapnout zvuk">
+                  <svg id="vol-icon-high" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                  <svg id="vol-icon-low" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  </svg>
+                  <svg id="vol-icon-mute" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                </button>
+                <div class="volume-slider-wrapper">
+                  <input type="range" id="player-volume-slider" class="cyber-volume-slider" min="0" max="100" value="80" aria-label="Hlasitost přehrávače" />
+                </div>
+                <span class="volume-pct" id="player-volume-pct">80%</span>
+              </div>
+
+              <!-- Lišta pro přepnutí playlistu & Spotify Embedu -->
+              <div class="player-tracklist-toggle-bar">
+                <button class="btn-tracklist-toggle" id="btn-tracklist-toggle" title="Zobrazit / skrýt seznam skladeb">
+                  <svg class="toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                  <span>Skladby (12)</span>
+                  <svg class="chevron-icon" id="tracklist-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <button class="btn-spotify-toggle" id="btn-spotify-embed-toggle" title="Zobrazit originální Spotify widget">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="#1ed760"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 5.4-12 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                  <span>Spotify Embed</span>
+                </button>
+              </div>
+
+              <!-- Rozbalovací seznam tracků s miniaturami obalů -->
+              <div class="player-tracklist-drawer" id="player-tracklist-drawer">
+                <div class="tracklist-items" id="tracklist-items-container">
+                  <!-- Generováno dynamicky v JS -->
+                </div>
+              </div>
+
+              <!-- Skrytý kontejner pro oficiální Spotify Embed (na přepnutí) -->
+              <div class="spotify-embed-collapsible" id="spotify-embed-collapsible" style="display: none;">
+                <div class="spotify-iframe-wrap">
+                  <iframe style="border-radius:12px;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DZ06evO37tkas?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+              </div>
+
+              <!-- Skrytý HTML5 Audio element pro přehrávání -->
+              <audio id="cyber-audio-element" preload="auto"></audio>
+            </div>
+          </div>
+
+          <!-- Pravý sloupec: Krátký popis (pár vět) + kompaktní karty -->
+          <div class="about-content-col scroll-reveal" style="--delay: 0.2s;">
+            <div class="about-concise-box">
+              <h3 class="about-heading">Vývojář se zaměřením na software a moderní web</h3>
+              <p class="about-lead">
+                Věnuji se programování a vývoji funkčních aplikací, systémových nástrojů a moderních rozhraní. 
+                Důraz kladu na čistou logiku, rychlost řešení a funkční architekturu.
+              </p>
+              <p class="about-sub">
+                Tento web slouží jako můj centrální uzel pro všechny nově vznikající projekty a technologie.
+              </p>
+            </div>
+
+            <div class="about-info-cards-stack">
+              <div class="info-card-compact">
+                <div class="info-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div class="info-details">
+                  <h4>Lokalita</h4>
+                  <p>Česká republika</p>
+                </div>
+              </div>
+
+              <div class="info-card-compact">
+                <div class="info-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+                </div>
+                <div class="info-details">
+                  <h4>Zaměření</h4>
+                  <p>Software development, webové aplikace, skripty a automatizace</p>
+                </div>
+              </div>
+
+              <div class="info-card-compact">
+                <div class="info-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div class="info-details">
+                  <h4>Status</h4>
+                  <p>Aktivní tvorba a příprava nových projektů</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dvě zvýrazněné kartičky -->
+            <div class="about-highlights">
+              <div class="highlight-card">
+                <div class="highlight-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
+                <div class="highlight-number">Kód &amp; Architektura</div>
+                <div class="highlight-label">Přehledný a spolehlivý přístup</div>
+              </div>
+              <div class="highlight-card">
+                <div class="highlight-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="21.17" y1="8" x2="12" y2="8"></line><line x1="3.95" y1="6.06" x2="8.54" y2="14"></line><line x1="10.88" y1="21.94" x2="15.46" y2="14"></line></svg>
+                </div>
+                <div class="highlight-number">Cyber UI Design</div>
+                <div class="highlight-label">Temná atmosféra s fialovým neonem</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         4. Dovednosti / Tech Stack
+         ========================================================================= -->
+    <section class="skills" id="skills">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-badge">Dovednosti</span>
+          <h2 class="section-title">Co používám při práci</h2>
+          <p class="section-subtitle">Přehled programovacích jazyků a nástrojů, se kterými tvořím.</p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Programovací jazyky -->
+          <div class="skill-category scroll-reveal" style="--delay: 0.1s;">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <h3 class="category-title">Jazyky &amp; Systémy</h3>
+            </div>
+            <p class="category-desc">
+              Jazyky pro psaní logiky aplikací, systémových nástrojů a algoritmů.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">JavaScript / ES6+</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">Python 3</span>
+              <span class="skill-tag">C# / .NET</span>
+              <span class="skill-tag">C++</span>
+              <span class="skill-tag">SQL</span>
+            </div>
+          </div>
+
+          <!-- Web & Frontend -->
+          <div class="skill-category scroll-reveal" style="--delay: 0.2s;">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </div>
+              <h3 class="category-title">Web &amp; Frontend</h3>
+            </div>
+            <p class="category-desc">
+              Tvorba moderních, rychlých a plně responzivních webových rozhraní s neonovou estetikou.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">HTML5 &amp; Sémantika</span>
+              <span class="skill-tag">CSS3 / Grid &amp; Flexbox</span>
+              <span class="skill-tag">Glassmorphism &amp; Glow</span>
+              <span class="skill-tag">DOM &amp; Fetch API</span>
+              <span class="skill-tag">Responzivní design</span>
+              <span class="skill-tag">UI/UX Design</span>
+            </div>
+          </div>
+
+          <!-- Nástroje & Workflow -->
+          <div class="skill-category scroll-reveal" style="--delay: 0.3s;">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              </div>
+              <h3 class="category-title">Nástroje &amp; Hosting</h3>
+            </div>
+            <p class="category-desc">
+              Vývojové prostředí, verzování kódu a platformy pro nonstop běh webu.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">Git &amp; GitHub</span>
+              <span class="skill-tag">GitHub Pages (24/7)</span>
+              <span class="skill-tag">VS Code</span>
+              <span class="skill-tag">PowerShell / Bash</span>
+              <span class="skill-tag">REST API &amp; JSON</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         5. Projekty / Portfolio & Správa projektů (s živým vyhledáváním a filtry)
+         ========================================================================= -->
+    <section class="projects" id="projects">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-badge">Portfolio</span>
+          <h2 class="section-title">Projekty &amp; Aplikace</h2>
+          <p class="section-subtitle">
+            Kategorie a vyhledávání pro okamžité filtrování. Můžeš sem nahrát vlastní projekty nebo načíst ukázková data.
+          </p>
+        </div>
+
+        <!-- Akční a Filtrační panel projektů -->
+        <div class="projects-control-bar scroll-reveal">
+          <div class="filter-bar" id="project-filters">
+            <button class="filter-btn active" data-filter="all">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Všechny</span>
+            </button>
+            <button class="filter-btn" data-filter="software">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+              <span>Software</span>
+            </button>
+            <button class="filter-btn" data-filter="web">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>Web</span>
+            </button>
+            <button class="filter-btn" data-filter="tools">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>Nástroje &amp; CLI</span>
+            </button>
+            <button class="filter-btn" data-filter="games">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="2"></rect></svg>
+              <span>Hry</span>
+            </button>
+            <button class="filter-btn" data-filter="ai">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+              <span>AI &amp; Skripty</span>
+            </button>
+          </div>
+
+          <div class="projects-actions-right">
+            <!-- Živé vyhledávací pole -->
+            <div class="search-input-wrap">
+              <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="project-search-input" class="search-input" placeholder="Hledat projekt, tag, jazyk..." autocomplete="off">
+              <button class="search-clear-btn" id="search-clear-btn" style="display: none;" title="Vymazat hledání">&times;</button>
+            </div>
+
+            <!-- Počítadlo projektů -->
+            <span class="project-counter-pill" id="project-counter-pill">0 projektů</span>
+
+            <button class="btn btn-neon-add" id="btn-add-project-modal">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Přidat projekt</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Výběrový projekt ke stažení: Cyber PC Monitor Banner -->
+        <div class="featured-app-banner scroll-reveal is-visible" style="background: linear-gradient(135deg, rgba(139,92,246,0.14) 0%, rgba(6,182,212,0.08) 100%); border: 1px solid rgba(139,92,246,0.35); border-radius: 18px; padding: 26px 28px; margin-bottom: 34px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; box-shadow: 0 8px 32px rgba(0,0,0,0.35);">
+          <div style="display: flex; align-items: center; gap: 20px; max-width: 680px;">
+            <div style="background: rgba(139,92,246,0.22); width: 62px; height: 62px; border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(168,85,247,0.45); flex-shrink: 0; color: var(--neon-purple); box-shadow: 0 0 20px rgba(139,92,246,0.35);">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+                <span class="badge" style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.35); font-size: 0.72rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">Aplikace ke stažení</span>
+                <span style="font-size: 0.8rem; color: var(--text-secondary);">Windows &bull; Portable (bez nutnosti instalace)</span>
+              </div>
+              <h3 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 6px;">⚡ Cyber PC Monitor v1.0</h3>
+              <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                Přenosná aplikace na měření a živé sledování výkonu PC. V reálném čase zobrazuje vytížení CPU i jednotlivých jader, paměť RAM, rychlosti čtení/zápisu disků a síťový tok v temném neonovém designu.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <a href="Cyber_PC_Monitor_v1.0.zip" download class="btn btn-primary" style="padding: 13px 24px; font-size: 0.95rem; box-shadow: 0 0 25px rgba(139,92,246,0.45); display: inline-flex; align-items: center; gap: 10px;" title="Stáhnout balíček s aplikací">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Stáhnout pro Windows (.zip &bull; 9.3 MB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Dynamicky generovaný kontejner projektů -->
+        <div class="projects-grid" id="projects-grid">
+          <!-- Projekty se dynamicky renderují přes main.js -->
+        </div>
+
+        <!-- Spodní výzva: Přidat další projekt -->
+        <div class="projects-footer-cta scroll-reveal">
+          <div class="cta-card">
+            <div class="cta-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <div class="cta-info">
+              <h3>Máš hotový nový projekt nebo nápad?</h3>
+              <p>Můžeš ho sem okamžitě přidat kliknutím na tlačítko a projekt se ihned uloží na web.</p>
+            </div>
+            <div class="cta-actions">
+              <button class="btn btn-primary" id="btn-cta-add">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Přidat nový projekt</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         6. Kontakt
+         ========================================================================= -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-badge">Kontakt</span>
+          <h2 class="section-title">Spojení &amp; Zprávy</h2>
+          <p class="section-subtitle">
+            Ať už máš dotaz, chceš probrat nápad, nebo prodiskutovat kód, napiš mi.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info-block scroll-reveal" style="--delay: 0.1s;">
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </div>
+              <div>
+                <div class="contact-card-title">Email</div>
+                <a href="mailto:lukas.jiranek@email.cz" class="contact-card-value">lukas.jiranek@email.cz</a>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </div>
+              <div>
+                <div class="contact-card-title">GitHub Repozitář</div>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="contact-card-value">github.com/lukas-jiranek</a>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <div>
+                <div class="contact-card-title">Discord / Komunita</div>
+                <div class="contact-card-value">Lukas#0001</div>
+              </div>
+            </div>
+
+            <!-- Kartička s tipem na GitHub Hosting -->
+            <div class="contact-card github-highlight-card" id="contact-github-card">
+              <div class="contact-card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </div>
+              <div>
+                <div class="contact-card-title" style="color: var(--neon-cyan);">GitHub Pages 24/7</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
+                  Chceš vědět, jak tento web publikovat zdarma navždy?
+                </p>
+                <button class="link-btn" id="btn-quick-guide">Zobrazit rychlý návod &rarr;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulář -->
+          <form class="contact-form scroll-reveal" id="contact-form" style="--delay: 0.2s;">
+            <div id="form-alert" class="form-alert"></div>
+
+            <div class="form-group">
+              <label for="name" class="form-label">Tvoje jméno nebo přezdívka</label>
+              <input type="text" id="name" class="form-input" placeholder="např. Lukáš Novák" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Tvůj email</label>
+              <input type="email" id="email" class="form-input" placeholder="např. lukas@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="message" class="form-label">Zpráva</label>
+              <textarea id="message" class="form-textarea" placeholder="Napiš mi podrobnosti o dotazu nebo nápadu..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <span>Odeslat zprávu</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       7. Dialog modální okno: AUTENTIZACE (Přihlášení / Registrace s Google / Gmail)
+       ========================================================================= -->
+  <dialog id="auth-modal" class="custom-modal auth-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="auth-modal-title-group">
+          <span class="auth-modal-badge">Cyber Auth</span>
+          <h3 id="auth-modal-title">Přihlášení do účtu</h3>
+        </div>
+        <button class="modal-close-btn" id="auth-modal-close" aria-label="Zavřít">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Přepínač záložek Přihlášení / Registrace -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" data-tab="login">Přihlášení</button>
+          <button class="auth-tab" id="tab-register" data-tab="register">Registrace</button>
+        </div>
+
+        <!-- Tlačítko Přihlášení přes Google / Gmail -->
+        <div class="google-auth-container">
+          <button class="google-btn" id="btn-google-auth">
+            <svg class="google-icon" viewBox="0 0 48 48">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <span id="google-btn-text">Pokračovat přes Google / Gmail</span>
+          </button>
+          <div class="google-hint">Okamžité bezpečné přihlášení jedním klikem</div>
+        </div>
+
+        <div class="auth-divider">
+          <span>nebo přes email</span>
+        </div>
+
+        <!-- Formulář Přihlášení / Registrace -->
+        <form id="auth-form" class="auth-form">
+          <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+          <!-- Pole jméno (zobrazí se pouze u registrace) -->
+          <div class="form-group" id="group-register-name" style="display: none;">
+            <label for="auth-name" class="form-label">Celé jméno nebo přezdívka</label>
+            <input type="text" id="auth-name" class="form-input" placeholder="např. Lukáš Jiránek">
+          </div>
+
+          <div class="form-group">
+            <label for="auth-email" class="form-label">Email (např. @gmail.com)</label>
+            <input type="email" id="auth-email" class="form-input" placeholder="tvuj@email.cz" required>
+          </div>
+
+          <div class="form-group">
+            <label for="auth-password" class="form-label">Heslo</label>
+            <input type="password" id="auth-password" class="form-input" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="btn-auth-submit" style="width: 100%;">
+            <span>Přihlásit se</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- =========================================================================
+       8. Dialog modální okno: PŘIDÁNÍ NOVÉHO PROJEKTU (Výběr SVG ikon místo emoji)
+       ========================================================================= -->
+  <dialog id="add-project-modal" class="custom-modal add-project-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="auth-modal-title-group">
+          <span class="auth-modal-badge neon-green-badge">Nový projekt</span>
+          <h3>Přidat projekt do portfolia</h3>
+        </div>
+        <button class="modal-close-btn" id="add-project-modal-close" aria-label="Zavřít">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-subtext">
+          Vyplň podrobnosti a projekt se ihned zobrazí v příslušné kategorii na webu a uloží se do paměti prohlížeče.
+        </p>
+
+        <form id="add-project-form" class="project-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="proj-title" class="form-label">Název projektu *</label>
+              <input type="text" id="proj-title" class="form-input" placeholder="např. Můj nový program" required>
+            </div>
+
+            <div class="form-group">
+              <label for="proj-category" class="form-label">Kategorie *</label>
+              <select id="proj-category" class="form-input" required>
+                <option value="software">Software &amp; Aplikace</option>
+                <option value="web">Web &amp; Frontend</option>
+                <option value="tools">Nástroje &amp; CLI</option>
+                <option value="games">Hry &amp; Grafika</option>
+                <option value="ai">AI &amp; Automatizace</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="proj-badge" class="form-label">Štítek / Odznak</label>
+              <input type="text" id="proj-badge" class="form-input" placeholder="např. Desktopová aplikace">
+            </div>
+
+            <!-- Výběr systémové SVG ikony (žádné emoji!) -->
+            <div class="form-group">
+              <label class="form-label">Ikona projektu *</label>
+              <div class="icon-selector-grid" id="icon-selector-grid">
+                <button type="button" class="icon-choice active" data-icon="terminal" title="Terminál / Kód">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                </button>
+                <button type="button" class="icon-choice" data-icon="code" title="Zdrojový kód">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                </button>
+                <button type="button" class="icon-choice" data-icon="globe" title="Web &amp; Síť">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                </button>
+                <button type="button" class="icon-choice" data-icon="zap" title="Blesk / Rychlost">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </button>
+                <button type="button" class="icon-choice" data-icon="gamepad" title="Hra / Grafika">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="2"></rect></svg>
+                </button>
+                <button type="button" class="icon-choice" data-icon="cpu" title="AI / Čip">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                </button>
+                <button type="button" class="icon-choice" data-icon="database" title="Databáze">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                </button>
+                <button type="button" class="icon-choice" data-icon="shield" title="Bezpečnost">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </button>
+              </div>
+              <input type="hidden" id="proj-icon-val" value="terminal">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="proj-short-desc" class="form-label">Krátký popis (na kartě) *</label>
+            <input type="text" id="proj-short-desc" class="form-input" placeholder="Výstižný 1-2 větový popis pro náhledovou kartu..." required>
+          </div>
+
+          <div class="form-group">
+            <label for="proj-full-desc" class="form-label">Podrobný popis (v detailu okna)</label>
+            <textarea id="proj-full-desc" class="form-textarea" placeholder="Detailní rozpis architektury, funkcí a řešení problému..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="proj-tags" class="form-label">Technologie (odděl čárkou) *</label>
+            <input type="text" id="proj-tags" class="form-input" placeholder="C#, .NET, WPF, Python, Git" required>
+          </div>
+
+          <div class="form-group">
+            <label for="proj-features" class="form-label">Klíčové funkce (každou na nový řádek)</label>
+            <textarea id="proj-features" class="form-textarea" style="min-height: 80px;" placeholder="Klíčová vlastnost 1&#10;Klíčová vlastnost 2"></textarea>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="proj-github" class="form-label">Odkaz na GitHub</label>
+              <input type="url" id="proj-github" class="form-input" placeholder="https://github.com/lukas-jiranek/muj-projekt">
+            </div>
+
+            <div class="form-group">
+              <label for="proj-demo" class="form-label">Odkaz na Live Demo (nepovinné)</label>
+              <input type="url" id="proj-demo" class="form-input" placeholder="https://muj-web.cz">
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              <span>Uložit a zobrazit</span>
+            </button>
+            <button type="button" class="btn btn-outline" id="btn-copy-project-code">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Zkopírovat kód pro main.js</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- =========================================================================
+       9. Dialog modální okno: PRŮVODCE GITHUB PAGES 24/7
+       ========================================================================= -->
+  <dialog id="github-guide-modal" class="custom-modal github-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="auth-modal-title-group">
+          <span class="auth-modal-badge neon-cyan-badge">GitHub Pages Hosting</span>
+          <h3>Jak mít web dostupný nonstop 24/7 zdarma</h3>
+        </div>
+        <button class="modal-close-btn" id="github-modal-close" aria-label="Zavřít">&times;</button>
+      </div>
+
+      <div class="modal-body guide-body">
+        <div class="guide-step">
+          <div class="step-badge">Krok 1</div>
+          <div class="step-content">
+            <h4>Vytvoř nový repozitář na GitHubu</h4>
+            <p>Běž na <a href="https://github.com/new" target="_blank" rel="noopener noreferrer" class="link-inline">github.com/new</a>, pojmenuj ho (např. <code>portfolio</code>) a nastav jako <strong>Public</strong>.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">Krok 2</div>
+          <div class="step-content">
+            <h4>Nahraj soubory webu do repozitáře</h4>
+            <p>Máš dvě jednoduché možnosti:</p>
+            <ul class="guide-list">
+              <li><strong>Nejjednodušší způsob:</strong> V novém repozitáři na GitHubu klikni na <em>"uploading an existing file"</em> a jednoduše přetáhni soubory <code>index.html</code>, složku <code>css</code> a složku <code>js</code>.</li>
+              <li><strong>Přes terminál (Git):</strong> Spusť v této složce:
+                <div class="code-block">
+                  <code>git init
+git add .
+git commit -m "Cyber Violet web"
+git branch -M main
+git remote add origin https://github.com/TVOJE_JMENO/portfolio.git
+git push -u origin main</code>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">Krok 3</div>
+          <div class="step-content">
+            <h4>Zapni GitHub Pages (1 kliknutí)</h4>
+            <ol class="guide-ordered-list">
+              <li>V repozitáři klikni nahoře na <strong>Settings</strong> (Ozubené kolečko).</li>
+              <li>V levém menu klikni na <strong>Pages</strong>.</li>
+              <li>V sekci <strong>Build and deployment</strong> u položky <strong>Branch</strong> vyber <code>main</code> a složku <code>/ (root)</code>.</li>
+              <li>Klikni na <strong>Save</strong>.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge success">Hotovo!</div>
+          <div class="step-content">
+            <h4>Tvůj web běží nonstop 24/7 zdarma!</h4>
+            <p>Během cca 60 sekund bude web dostupný na celém světě na adrese:</p>
+            <div class="url-highlight">
+              <code>https://&lt;tvoje-jmeno&gt;.github.io/portfolio/</code>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">
+              Kdykoliv upravíš kód nebo nahraješ nový projekt, GitHub Pages se automaticky do minuty aktualizuje.
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="margin-top: 24px;">
+          <button type="button" class="btn btn-primary" id="btn-close-guide-ok">
+            <span>Rozumím, pokračovat</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- =========================================================================
+       10. Dialog modální okno pro detail projektu
+       ========================================================================= -->
+  <dialog id="project-modal" class="custom-modal project-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="auth-modal-badge">Detail projektu</span>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Zavřít">&times;</button>
+      </div>
+      <div id="modal-body" class="modal-body">
+        <!-- Obsah se dynamicky vkládá z main.js -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Plovoucí Toast notifikace pro rychlou zpětnou vazbu -->
+  <div id="toast-notification" class="toast-notification"></div>
+
+  <!-- =========================================================================
+       11. Patička (Footer)
+       ========================================================================= -->
+  <footer class="footer">
+    <div class="container footer-content scroll-reveal">
+      <div class="footer-left">
+        <a href="#home" class="logo">
+          <span class="logo-tag">&lt;/&gt;</span>
+          <span class="logo-text">Lukáš<span class="neon-dot">.</span>dev</span>
+        </a>
+        <p class="footer-tagline">
+          Vytvořeno v temně fialovém kyber-neon stylu pro prezentaci vývoje a projektů.
+        </p>
+      </div>
+
+      <div class="footer-links-group">
+        <h4>Rychlá navigace</h4>
+        <div class="footer-links">
+          <a href="#home">Domů</a>
+          <a href="#about">O mně</a>
+          <a href="#skills">Dovednosti</a>
+          <a href="#projects">Projekty</a>
+          <a href="#contact">Kontakt</a>
+          <button class="footer-link-btn" id="footer-github-guide-btn">Návod GitHub Pages</button>
+        </div>
+      </div>
+
+      <div class="footer-links-group">
+        <h4>Kategorie projektů</h4>
+        <div class="footer-links">
+          <a href="#projects" class="footer-cat-link" data-cat="software">Software</a>
+          <a href="#projects" class="footer-cat-link" data-cat="web">Web</a>
+          <a href="#projects" class="footer-cat-link" data-cat="tools">Nástroje</a>
+          <a href="#projects" class="footer-cat-link" data-cat="games">Hry</a>
+          <a href="#projects" class="footer-cat-link" data-cat="ai">AI</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div class="footer-text">
+        &copy; 2026 Lukáš Jiránek. Všechna práva vyhrazena. Běží 24/7 s podporou GitHub Pages.
+      </div>
+      <div class="social-links">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tlačítko zpět nahoru -->
+  <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Posunout nahoru">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
+
+  <!-- Skript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
