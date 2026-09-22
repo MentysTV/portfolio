@@ -195,6 +195,8 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             self.handle_api_processes(query)
         elif path == "/api/connections":
             self.handle_api_connections()
+        elif path == "/api/update_check":
+            self.handle_api_update_check()
         elif path.startswith("/api/process/"):
             pid_str = path.split("/")[-1]
             self.handle_api_process_detail(pid_str)
@@ -203,6 +205,53 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             if path == "/" or path == "":
                 self.path = "/index.html"
             return super().do_GET()
+
+    def handle_api_update_check(self):
+        import urllib.request
+        local_ver = "1.1.0"
+        ver_file = os.path.join(BASE_DIR, "version.json")
+        if os.path.exists(ver_file):
+            try:
+                with open(ver_file, "r", encoding="utf-8") as f:
+                    local_ver = json.load(f).get("version", "1.1.0")
+            except Exception:
+                pass
+
+        remote_url = "https://raw.githubusercontent.com/MentysTV/portfolio/main/version.json"
+        try:
+            req = urllib.request.Request(remote_url, headers={"User-Agent": "CyberPCMonitor/1.1"})
+            with urllib.request.urlopen(req, timeout=3.5) as resp:
+                if resp.status == 200:
+                    remote_data = json.loads(resp.read().decode("utf-8"))
+                    remote_ver = remote_data.get("version", local_ver)
+
+                    def parse_v(v_str):
+                        parts = []
+                        for x in v_str.lstrip("v").split("."):
+                            if x.isdigit():
+                                parts.append(int(x))
+                        return tuple(parts)
+
+                    is_newer = parse_v(remote_ver) > parse_v(local_ver)
+                    self.send_json({
+                        "update_available": is_newer,
+                        "current_version": local_ver,
+                        "latest_version": remote_ver,
+                        "title": remote_data.get("title", f"Cyber PC Monitor v{remote_ver}"),
+                        "download_url": remote_data.get("download_url", "https://mentystv.github.io/portfolio/"),
+                        "web_url": remote_data.get("web_url", "https://mentystv.github.io/portfolio/"),
+                        "changelog": remote_data.get("changelog", [])
+                    })
+                    return
+        except Exception:
+            pass
+
+        self.send_json({
+            "update_available": False,
+            "current_version": local_ver,
+            "latest_version": local_ver,
+            "message": "Aplikace je aktuální."
+        })
 
     def do_POST(self):
         parsed = urlparse(self.path)

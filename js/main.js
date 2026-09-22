@@ -89,25 +89,26 @@ function getProjectIconSvg(iconKey, category = "software", size = 22) {
 // ==========================================================================
 const defaultProjects = [
   {
-    id: "cyber-pc-monitor",
-    title: "Cyber PC Monitor",
+    id: "app-pc-monitor",
+    title: "Cyber PC Monitor v1.1",
     category: "software",
     badge: "Ke stažení (.exe)",
     icon: "cpu",
-    shortDesc: "Přenosná desktopová aplikace pro živé sledování výkonu PC (CPU, RAM, Disky, Síťová telemetrie & Hardware).",
-    fullDesc: "Samostatná aplikace v prémiovém Cyber-Violet glassmorphism designu. Uživatel si aplikaci jednoduše stáhne, spustí na svém počítači a ihned vidí detailní přehled výkonu: celkové vytížení CPU i jednotlivých jader, paměť RAM a swap, rychlosti čtení a zápisu SSD/disků, živou rychlost internetu a kompletní specifikace PC bez jakékoliv instalace.",
-    tags: ["Desktop App", "Hardware Monitor", "Windows", "Real-Time Telemetry"],
+    shortDesc: "Přenosná desktopová aplikace pro živé sledování výkonu PC (CPU, RAM, Disky, Síť, Hardware, diagnostika stavu a auto-aktualizace).",
+    fullDesc: "Samostatná aplikace v prémiovém Cyber-Violet glassmorphism designu. Uživatel si aplikaci jednoduše stáhne, spustí na svém počítači a ihned vidí detailní přehled výkonu: celkové vytížení CPU i jednotlivých jader, paměť RAM a swap, rychlosti čtení a zápisu SSD/disků, živou rychlost internetu, diagnostický stav počítače a automatickou kontrolu nových aktualizací.",
+    tags: ["Desktop App", "Hardware Monitor", "Windows", "Real-Time Telemetry", "Auto-Update"],
     features: [
       "Okamžitý přehled vytížení procesoru (celkem i per-core grafy)",
       "Sledování paměti RAM a swap souboru",
       "Měření reálných rychlostí čtení a zápisu disků v MB/s",
       "Živý síťový monitor (stahování i odesílání)",
-      "Kompletní specifikace PC a operačního systému",
-      "Přenosné provedení – stačí stáhnout a spustit"
+      "Diagnostika stavu počítače a rádce 'Co co znamená?'",
+      "Automatická detekce a upozornění na nové aktualizace",
+      "Přenosné provedení – stačí stáhnout a spustit bez instalace"
     ],
     github: "https://github.com/MentysTV/portfolio",
     demo: null,
-    downloadUrl: "Cyber_PC_Monitor_v1.0.zip"
+    downloadUrl: "Cyber_PC_Monitor_v1.1.zip"
   }
 ];
 

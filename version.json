@@ -1,0 +1,14 @@
+{
+  "version": "1.1.0",
+  "release_date": "2026-09-22",
+  "title": "Cyber PC Monitor v1.1.0",
+  "download_url": "https://github.com/MentysTV/portfolio/raw/main/Cyber_PC_Monitor_v1.1.zip",
+  "web_url": "https://mentystv.github.io/portfolio/",
+  "changelog": [
+    "Nový přehledný stav počítače (zelená / žlutá / červená)",
+    "Interaktivní průvodce 'Co co znamená?' s vysvětlením komponent",
+    "Lidštější popisky a rady pro procesor, paměť, disky i síť",
+    "Kategorizované zobrazení hardware parametrů do karet",
+    "Automatická kontrola a upozornění na nové aktualizace aplikace"
+  ]
+}

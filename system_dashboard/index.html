@@ -57,6 +57,18 @@
         <strong id="header-cpu-name">Procesor</strong>
       </div>
 
+      <!-- Update Available Notification Badge -->
+      <button class="btn-update-badge" id="btn-update-badge" style="display:none;" title="Je k dispozici nová verze aplikace!">
+        <span class="update-pulse-ring"></span>
+        <span class="update-pulse-dot"></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span id="update-badge-text">Aktualizace k dispozici</span>
+      </button>
+
       <button class="btn-quick-clean" id="btn-open-hogs" title="Rychlé vyčištění náročných procesů">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
@@ -617,6 +629,10 @@
             </svg>
             Hardwarové a systémové parametry
           </span>
+          <button class="btn-check-updates" id="btn-check-updates" title="Zkontrolovat dostupnost novější verze">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+            <span>Zkontrolovat aktualizace</span>
+          </button>
         </div>
         <div id="system-specs-container">
           <!-- Dynamically populated by JS -->
@@ -677,6 +693,48 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           Ukončit vybrané procesy
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: UPDATE AVAILABLE
+       ========================================================================= -->
+  <div class="modal-overlay" id="update-modal">
+    <div class="cyber-modal">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="update-modal-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </div>
+          <div>
+            <h2 class="modal-title" id="update-modal-title">Dostupná nová verze aplikace</h2>
+            <span style="font-size:0.75rem;color:var(--text-muted);" id="update-modal-versions">Aktuální verze: v1.0.0 → Nová verze: v1.1.0</span>
+          </div>
+        </div>
+        <button class="modal-close" id="update-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">
+          Byla vydána novější verze Cyber PC Monitoru s novými funkcemi a vylepšeními:
+        </p>
+        <div class="changelog-box" id="update-changelog-box">
+          <!-- Dynamic changelog items -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close">Připomenout později</button>
+        <a href="https://mentystv.github.io/portfolio/" target="_blank" class="btn btn-outline-violet" id="btn-update-web">
+          Otevřít web
+        </a>
+        <a href="#" class="btn btn-primary" id="btn-update-download" download style="background:linear-gradient(135deg, var(--cyan-500), var(--violet-600));border:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Stáhnout aktualizaci (.zip)
+        </a>
       </div>
     </div>
   </div>

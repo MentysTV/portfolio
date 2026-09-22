@@ -96,6 +96,18 @@
     hogsListContainer: document.getElementById('hogs-list-container'),
     btnKillHogsConfirm: document.getElementById('btn-kill-hogs-confirm'),
 
+    // Update Notification & Modal
+    btnUpdateBadge: document.getElementById('btn-update-badge'),
+    updateBadgeText: document.getElementById('update-badge-text'),
+    btnCheckUpdates: document.getElementById('btn-check-updates'),
+    updateModal: document.getElementById('update-modal'),
+    updateModalTitle: document.getElementById('update-modal-title'),
+    updateModalVersions: document.getElementById('update-modal-versions'),
+    updateChangelogBox: document.getElementById('update-changelog-box'),
+    btnUpdateDownload: document.getElementById('btn-update-download'),
+    btnUpdateWeb: document.getElementById('btn-update-web'),
+    updateModalClose: document.getElementById('update-modal-close'),
+
     // Toasts
     toastContainer: document.getElementById('toast-container'),
 
@@ -942,13 +954,26 @@
       btn.addEventListener('click', () => {
         DOM.processModal.classList.remove('active');
         DOM.hogsModal.classList.remove('active');
+        if (DOM.updateModal) DOM.updateModal.classList.remove('active');
       });
     });
 
     window.addEventListener('click', (e) => {
       if (e.target === DOM.processModal) DOM.processModal.classList.remove('active');
       if (e.target === DOM.hogsModal) DOM.hogsModal.classList.remove('active');
+      if (e.target === DOM.updateModal) DOM.updateModal.classList.remove('active');
     });
+
+    // Update Notification & Modal Listeners
+    if (DOM.btnUpdateBadge) {
+      DOM.btnUpdateBadge.addEventListener('click', openUpdateModal);
+    }
+    if (DOM.btnCheckUpdates) {
+      DOM.btnCheckUpdates.addEventListener('click', () => checkForUpdates(true));
+    }
+    if (DOM.updateModalClose) {
+      DOM.updateModalClose.addEventListener('click', closeUpdateModal);
+    }
 
     // Clean Hogs Buttons
     DOM.btnOpenHogs.addEventListener('click', openHogsModal);
@@ -982,8 +1007,13 @@
       killMultipleProcesses(selectedHogPids);
     });
 
-    // Global keyboard shortcut '/' to focus search
+    // Global keyboard shortcuts
     window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (DOM.processModal) DOM.processModal.classList.remove('active');
+        if (DOM.hogsModal) DOM.hogsModal.classList.remove('active');
+        if (DOM.updateModal) DOM.updateModal.classList.remove('active');
+      }
       if (e.key === '/' && document.activeElement !== DOM.processSearchInput) {
         e.preventDefault();
         const procTab = document.querySelector('.nav-tab[data-tab="processes"]');
@@ -991,6 +1021,98 @@
         DOM.processSearchInput.focus();
       }
     });
+  }
+
+  // =========================================================================
+  // APP UPDATE SYSTEM
+  // =========================================================================
+  async function checkForUpdates(manual = false) {
+    if (manual && DOM.btnCheckUpdates) {
+      DOM.btnCheckUpdates.classList.add('is-checking');
+    }
+
+    try {
+      const res = await fetch('/api/update_check');
+      if (!res.ok) throw new Error('Ověření aktualizace selhalo');
+      const data = await res.json();
+
+      if (data.update_available) {
+        // Show glowing badge in header
+        if (DOM.btnUpdateBadge) {
+          DOM.btnUpdateBadge.style.display = 'inline-flex';
+          if (DOM.updateBadgeText) {
+            DOM.updateBadgeText.textContent = `Nová verze v${data.latest_version}`;
+          }
+        }
+
+        // Populate update modal
+        if (DOM.updateModalTitle) {
+          DOM.updateModalTitle.textContent = `Dostupná nová verze (${data.title || 'v' + data.latest_version})`;
+        }
+        if (DOM.updateModalVersions) {
+          DOM.updateModalVersions.textContent = `Nainstalováno: v${data.current_version} ➔ Nejnovější: v${data.latest_version}`;
+        }
+        if (DOM.btnUpdateDownload && data.download_url) {
+          DOM.btnUpdateDownload.href = data.download_url;
+        }
+        if (DOM.btnUpdateWeb && data.web_url) {
+          DOM.btnUpdateWeb.href = data.web_url;
+        }
+
+        if (DOM.updateChangelogBox) {
+          DOM.updateChangelogBox.innerHTML = '';
+          const items = Array.isArray(data.changelog) && data.changelog.length > 0
+            ? data.changelog
+            : ['Vylepšení přehlednosti a stability', 'Optimalizace výkonu měření'];
+
+          items.forEach(itemText => {
+            const item = document.createElement('div');
+            item.className = 'changelog-item';
+            item.innerHTML = `
+              <span class="changelog-bullet">✦</span>
+              <span>${escapeHtml(itemText)}</span>
+            `;
+            DOM.updateChangelogBox.appendChild(item);
+          });
+        }
+
+        if (manual) {
+          openUpdateModal();
+        } else {
+          showToast(`⚡ Je k dispozici nová verze Cyber PC Monitoru (v${data.latest_version})!`, 'info', 6000);
+        }
+      } else {
+        if (DOM.btnUpdateBadge) {
+          DOM.btnUpdateBadge.style.display = 'none';
+        }
+        if (manual) {
+          showToast(`✓ Aplikace je aktuální (v${data.current_version || '1.1.0'}). Máte nejnovější verzi!`, 'success', 4000);
+        }
+      }
+    } catch (err) {
+      console.warn('Update check failed:', err);
+      if (manual) {
+        showToast('Nelze ověřit aktualizace. Zkontrolujte připojení k internetu.', 'danger', 4000);
+      }
+    } finally {
+      if (manual && DOM.btnCheckUpdates) {
+        setTimeout(() => {
+          DOM.btnCheckUpdates.classList.remove('is-checking');
+        }, 600);
+      }
+    }
+  }
+
+  function openUpdateModal() {
+    if (DOM.updateModal) {
+      DOM.updateModal.classList.add('active');
+    }
+  }
+
+  function closeUpdateModal() {
+    if (DOM.updateModal) {
+      DOM.updateModal.classList.remove('active');
+    }
   }
 
   function resetPollingTimer() {
@@ -1024,6 +1146,11 @@
     fetchSystemStats();
     resetPollingTimer();
     console.log('Cyber Task Manager Initialized.');
+
+    // Check for updates shortly after launch
+    setTimeout(() => {
+      checkForUpdates(false);
+    }, 1500);
   }
 
   window.addEventListener('DOMContentLoaded', init);

@@ -8,7 +8,7 @@ Moderní, temně fialový kyber-neonový osobní web a portfolio pro prezentaci 
 
 - **Webové portfolio**: Dvojklikněte na [SPUSTIT_PORTFOLIO.bat](file:///c:/Users/MentysTV/Downloads/portfolio_cyber_violet/SPUSTIT_PORTFOLIO.bat) pro okamžité otevření v prohlížeči.
 - **Cyber PC Monitor**: Dvojklikněte na [SPUSTIT_CYBER_PC_MONITOR.bat](file:///c:/Users/MentysTV/Downloads/portfolio_cyber_violet/SPUSTIT_CYBER_PC_MONITOR.bat) pro spuštění živého sledování výkonu PC.
-- **Stažitelný balíček PC Monitoru**: Připraven v archivu [Cyber_PC_Monitor_v1.0.zip](file:///c:/Users/MentysTV/Downloads/portfolio_cyber_violet/Cyber_PC_Monitor_v1.0.zip).
+- **Stažitelný balíček PC Monitoru**: Připraven v archivu [Cyber_PC_Monitor_v1.1.zip](file:///c:/Users/MentysTV/Downloads/portfolio_cyber_violet/Cyber_PC_Monitor_v1.1.zip) (obsahuje i `SPUSTIT_CYBER_PC_MONITOR.bat` pro čisté spuštění bez varování Windows SmartScreen a systém automatické kontroly aktualizací).
 
 ---
 
