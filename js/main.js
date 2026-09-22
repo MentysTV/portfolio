@@ -238,41 +238,8 @@ function clearAllProjects() {
 }
 
 // ==========================================================================
-// 4. Vykreslování projektů & Živé vyhledávání & GitHub Repozitáře
+// 4. Vykreslování projektů & Živé vyhledávání
 // ==========================================================================
-let gitHubReposCache = null;
-
-async function fetchGitHubRepos() {
-  if (gitHubReposCache) return gitHubReposCache;
-  try {
-    const res = await fetch("https://api.github.com/users/MentysTV/repos?sort=updated&per_page=20");
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const repos = await res.json();
-    gitHubReposCache = repos.map(repo => ({
-      id: `gh-${repo.id}`,
-      title: repo.name,
-      category: "github",
-      badge: repo.language || "GitHub",
-      icon: "code",
-      shortDesc: repo.description || `Veřejný repozitář na GitHubu uživatele @MentysTV. Hvězdičky: ${repo.stargazers_count}, forky: ${repo.forks_count}.`,
-      fullDesc: `${repo.description || 'Veřejný kód na profilu MentysTV.'} Vytvořeno: ${new Date(repo.created_at).toLocaleDateString('cs-CZ')}, poslední aktualizace: ${new Date(repo.updated_at).toLocaleDateString('cs-CZ')}. Hlavní jazyk: ${repo.language || 'Neuvedeno'}.`,
-      tags: [repo.language, repo.default_branch ? `Větev: ${repo.default_branch}` : null, `Stars: ${repo.stargazers_count}`, "Open Source"].filter(Boolean),
-      features: [
-        `Výchozí větev: ${repo.default_branch}`,
-        `Počet hvězdiček: ${repo.stargazers_count}`,
-        `Počet forků: ${repo.forks_count}`,
-        `Otevřených issues: ${repo.open_issues_count}`
-      ],
-      github: repo.html_url,
-      demo: repo.homepage || null
-    }));
-    return gitHubReposCache;
-  } catch (err) {
-    console.warn("Nelze načíst GitHub repos:", err);
-    return [];
-  }
-}
-
 function renderProjects(categoryFilter = "all", searchQuery = "") {
   currentCategoryFilter = categoryFilter;
   currentSearchQuery = searchQuery;
@@ -281,28 +248,11 @@ function renderProjects(categoryFilter = "all", searchQuery = "") {
   const counterPill = document.getElementById("project-counter-pill");
   if (!container) return;
 
-  if (categoryFilter === "github") {
-    container.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 45px 20px;">
-        <div class="radar-scanline" style="margin: 0 auto 16px auto; width: 64px; height: 3px; background: var(--neon-cyan);"></div>
-        <p style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.95rem;">Načítám živé veřejné repozitáře z profilu @MentysTV...</p>
-      </div>
-    `;
-    fetchGitHubRepos().then(repos => {
-      displayProjectsList(repos, searchQuery, categoryFilter, container, counterPill);
-    });
-    return;
-  }
-
   const allProjects = getAllProjects();
-  displayProjectsList(allProjects, searchQuery, categoryFilter, container, counterPill);
-}
-
-function displayProjectsList(projectsList, searchQuery, categoryFilter, container, counterPill) {
   const query = (searchQuery || "").trim().toLowerCase();
 
-  const filtered = projectsList.filter(project => {
-    const matchesCategory = categoryFilter === "all" || categoryFilter === "github" || project.category === categoryFilter;
+  const filtered = allProjects.filter(project => {
+    const matchesCategory = categoryFilter === "all" || project.category === categoryFilter;
     if (!matchesCategory) return false;
 
     if (!query) return true;
@@ -364,7 +314,7 @@ function displayProjectsList(projectsList, searchQuery, categoryFilter, containe
     `;
 
     document.getElementById("empty-add-btn")?.addEventListener("click", () => {
-      openAddProjectModal(categoryFilter !== "all" && categoryFilter !== "github" ? categoryFilter : "software");
+      openAddProjectModal(categoryFilter !== "all" ? categoryFilter : "software");
     });
 
     document.getElementById("empty-load-demo-btn")?.addEventListener("click", () => {
@@ -400,8 +350,7 @@ function displayProjectsList(projectsList, searchQuery, categoryFilter, containe
         </a>`
       : "";
 
-    const isGitHubItem = project.category === "github";
-    const deleteBtn = isGitHubItem ? "" : `
+    const deleteBtn = `
       <button class="project-btn delete-custom-btn" data-delete-id="${project.id}" title="Odstranit tento projekt">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4"></path></svg>
       </button>`;
@@ -466,7 +415,6 @@ function getCategoryLabel(cat) {
     case "tools": return "Nástroj / CLI";
     case "games": return "Hra & Grafika";
     case "ai": return "AI & Skript";
-    case "github": return "GitHub Repozitář";
     default: return "Projekt";
   }
 }
