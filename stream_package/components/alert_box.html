@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>MentysTV // Alert Box (Oznámení pro OBS)</title>
+  <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/stream_theme.css">
+  <style>
+    body {
+      background: transparent !important;
+    }
+
+    /* Test controls bar for direct browser preview (auto-hides in OBS) */
+    .test-controls {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 9999;
+      background: rgba(14, 11, 28, 0.9);
+      border: 1px solid var(--hud-border);
+      padding: 10px 18px;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    }
+
+    .test-btn {
+      background: rgba(157, 78, 221, 0.2);
+      border: 1px solid var(--neon-violet);
+      color: #fff;
+      font-family: var(--font-hud);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 1px;
+    }
+
+    .test-btn:hover {
+      background: var(--neon-violet);
+      box-shadow: 0 0 15px var(--neon-violet);
+    }
+  </style>
+</head>
+<body class="transparent-scene">
+
+  <!-- ALERT CONTAINER -->
+  <div class="alert-wrapper" id="alert-box" style="display: none;">
+    <div class="cyber-alert">
+      <div class="alert-image-container">
+        <img class="alert-image" id="alert-img" src="../assets/emotes/mentys_hype_112.png" alt="Alert">
+      </div>
+      <div class="alert-title" id="alert-title">NOVÝ SLEDUJÍCÍ!</div>
+      <div class="alert-user" id="alert-user">CyberGamer_99</div>
+      <div class="alert-message" id="alert-message">Vítej na streamu!</div>
+    </div>
+  </div>
+
+  <!-- TEST BUTTONS (Automatically hidden in OBS via ?obs=1 parameter) -->
+  <div class="test-controls" id="test-controls-bar">
+    <button class="test-btn" onclick="triggerStreamAlert('follow', 'CyberGamer_CZ', 'Sleduje tvůj kanál!')">★ TEST FOLLOW</button>
+    <button class="test-btn" onclick="triggerStreamAlert('sub', 'VortexCZ', 'Právě předplatil Sub (Tier 1)!')">♦ TEST SUB</button>
+    <button class="test-btn" onclick="triggerStreamAlert('donate', 'Kryštof', 'Posílá 200 Kč: Drž se Mentysi!')">⚡ TEST DONATE</button>
+    <button class="test-btn" onclick="triggerStreamAlert('raid', 'Agraelus', 'Přichází s raidem 1500 diváků!')">⚔ TEST RAID</button>
+  </div>
+
+  <script src="../js/stream_core.js"></script>
+  <script>
+    // Hide test controls if loaded in OBS with query param or iframe
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('obs') || window.name === 'obs-browser') {
+      document.getElementById('test-controls-bar').style.display = 'none';
+    }
+
+    // Auto-demo on load if opened standalone
+    window.addEventListener('load', () => {
+      if (!urlParams.has('obs')) {
+        setTimeout(() => {
+          triggerStreamAlert('sub', 'VortexCZ', 'Právě předplatil Sub (Tier 1)!');
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>

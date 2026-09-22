@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>MentysTV // Průhledný Chat Box (OBS)</title>
+  <meta name="viewport" content="width=450, height=700, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/stream_theme.css">
+  <style>
+    body {
+      width: 450px !important;
+      height: 700px !important;
+      background: transparent !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+
+    .chat-stream-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .chat-bubble {
+      background: rgba(14, 11, 28, 0.75);
+      border-left: 3px solid var(--neon-violet);
+      border-right: 1px solid rgba(157, 78, 221, 0.2);
+      border-top: 1px solid rgba(157, 78, 221, 0.2);
+      border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 10px 14px;
+      border-radius: 0 10px 10px 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      animation: chatIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes chatIn {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .chat-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .chat-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 6px;
+      background: rgba(0, 245, 212, 0.15);
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      border-radius: 3px;
+    }
+
+    .chat-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      letter-spacing: 1px;
+    }
+
+    .chat-text-content {
+      font-family: var(--font-hud);
+      font-size: 15px;
+      font-weight: 600;
+      color: #f1f5f9;
+      line-height: 1.35;
+    }
+  </style>
+</head>
+<body class="transparent-scene">
+
+  <div class="chat-stream-list" id="chat-list">
+    <div class="chat-bubble">
+      <div class="chat-meta">
+        <span class="chat-badge">VIP</span>
+        <span class="chat-name">VortexCZ</span>
+      </div>
+      <div class="chat-text-content">Čau lidi! Dneska dáme win? 🔥</div>
+    </div>
+
+    <div class="chat-bubble" style="border-left-color: var(--neon-cyan);">
+      <div class="chat-meta">
+        <span class="chat-badge" style="border-color: var(--neon-violet); color: var(--neon-violet);">MOD</span>
+        <span class="chat-name" style="color: var(--neon-pink);">Aneta_V</span>
+      </div>
+      <div class="chat-text-content">Připomínám pravidla v chatu a odkaz na Discord 💜</div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="chat-meta">
+        <span class="chat-badge">SUB</span>
+        <span class="chat-name">CyberNinja_99</span>
+      </div>
+      <div class="chat-text-content">Ten Cyber Violet styl je mega čistý!</div>
+    </div>
+  </div>
+
+  <script>
+    // Demo rotation for preview
+    const sampleMessages = [
+      { name: "Kryštof", role: "SUB", text: "GG WP! Výborná hra!" },
+      { name: "SpeedyCZ", role: "VIP", text: "Bude dneska taky Valorant nebo GTA?" },
+      { name: "MentysFan", role: "VIEWER", text: "Let's goooo! 🔥🔥🔥" }
+    ];
+
+    setInterval(() => {
+      const sample = sampleMessages[Math.floor(Math.random() * sampleMessages.length)];
+      const list = document.getElementById('chat-list');
+      const item = document.createElement('div');
+      item.className = 'chat-bubble';
+      item.innerHTML = `
+        <div class="chat-meta">
+          <span class="chat-badge">${sample.role}</span>
+          <span class="chat-name">${sample.name}</span>
+        </div>
+        <div class="chat-text-content">${sample.text}</div>
+      `;
+      list.appendChild(item);
+      if (list.children.length > 5) {
+        list.removeChild(list.children[0]);
+      }
+    }, 4500);
+  </script>
+</body>
+</html>

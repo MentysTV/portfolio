@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>MentysTV // Samostatný Rám Webkamery</title>
+  <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/stream_theme.css">
+  <style>
+    body {
+      background: transparent !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cam-box {
+      width: 560px;
+      height: 315px; /* 16:9 */
+      border: 3px solid var(--neon-violet);
+      box-shadow: 0 0 28px rgba(157, 78, 221, 0.7), inset 0 0 20px rgba(157, 78, 221, 0.25);
+      position: relative;
+    }
+  </style>
+</head>
+<body class="transparent-scene">
+
+  <div class="cam-box">
+    <div class="cam-bracket-tl"></div>
+    <div class="cam-bracket-tr"></div>
+    <div class="cam-bracket-bl"></div>
+    <div class="cam-bracket-br"></div>
+    
+    <div class="cam-tag">
+      <span class="tag-highlight">MENTYS</span> // LIVE CAM
+    </div>
+  </div>
+
+</body>
+</html>

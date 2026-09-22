@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>MentysTV // Cyber Violet Stream Suite (OBS Hub)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/stream_theme.css">
+  <style>
+    body {
+      width: 100vw !important;
+      height: 100vh !important;
+      overflow-y: auto !important;
+      background: #06050d !important;
+      display: block !important;
+      padding: 0 !important;
+    }
+
+    .hub-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Hub Header */
+    .hub-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(157, 78, 221, 0.3);
+      padding-bottom: 24px;
+    }
+
+    .hub-logo-area {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .hub-title {
+      font-size: 32px;
+      letter-spacing: 4px;
+    }
+
+    .hub-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .hub-btn {
+      background: rgba(157, 78, 221, 0.2);
+      border: 1px solid var(--neon-violet);
+      color: #fff;
+      font-family: var(--font-hud);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      transition: all 0.25s ease;
+    }
+
+    .hub-btn:hover, .hub-btn.active {
+      background: var(--neon-violet);
+      box-shadow: 0 0 20px var(--neon-violet);
+      color: #fff;
+    }
+
+    .hub-btn-cyan {
+      border-color: var(--neon-cyan);
+      background: rgba(0, 245, 212, 0.15);
+      color: var(--neon-cyan);
+    }
+    .hub-btn-cyan:hover {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 20px var(--neon-cyan);
+      color: #000;
+    }
+
+    /* Main Dashboard Grid */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+    }
+
+    /* Screen Monitor Wrapper */
+    .monitor-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .monitor-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border: 2px solid var(--neon-violet);
+      box-shadow: 0 0 30px rgba(157, 78, 221, 0.4);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .monitor-frame iframe {
+      width: 1920px;
+      height: 1080px;
+      border: none;
+      transform-origin: 0 0;
+      pointer-events: auto;
+    }
+
+    /* Scene Navigation Pills */
+    .scene-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Sidebar Panels */
+    .sidebar-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .info-card {
+      padding: 22px;
+    }
+
+    .info-card-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--neon-cyan);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(0, 245, 212, 0.2);
+      padding-bottom: 8px;
+    }
+
+    .url-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px dashed var(--hud-border);
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #38bdf8;
+      word-break: break-all;
+      margin-bottom: 12px;
+      user-select: all;
+    }
+
+    /* Emotes Gallery Grid */
+    .emotes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .emote-item {
+      background: rgba(18, 14, 38, 0.7);
+      border: 1px solid var(--hud-border);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .emote-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px var(--neon-violet));
+    }
+
+    .emote-name {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .emote-sizes {
+      display: flex;
+      gap: 6px;
+    }
+
+    .size-link {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--neon-cyan);
+      text-decoration: none;
+      background: rgba(0, 245, 212, 0.1);
+      padding: 2px 6px;
+      border: 1px solid rgba(0, 245, 212, 0.3);
+    }
+    .size-link:hover {
+      background: var(--neon-cyan);
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hub-container">
+    <!-- Header -->
+    <header class="hub-header">
+      <div class="hub-logo-area">
+        <div class="pulse-dot" style="width: 14px; height: 14px;"></div>
+        <div>
+          <h1 class="cyber-title hub-title">MENTYS TV // OBS STREAM SUITE</h1>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--neon-cyan); letter-spacing: 2px;">
+            CYBER VIOLET BROADCAST PACKAGE // 1080P 60FPS
+          </div>
+        </div>
+      </div>
+
+      <div class="hub-links">
+        <a href="NAVOD_OBS.md" target="_blank" class="hub-btn hub-btn-cyan">📖 NÁVOD DO OBS STUDIA</a>
+        <button class="hub-btn" onclick="openCurrentFullscreen()">⛶ CELÁ OBRAZOVKA</button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="hub-grid">
+      <!-- Left: Interactive Monitor -->
+      <div class="cyber-panel monitor-card">
+        <!-- Scene Selection Pills -->
+        <div class="scene-selector">
+          <button class="hub-btn active" onclick="loadScene('scenes/starting_soon.html', this)">⏳ STARTING SOON</button>
+          <button class="hub-btn" onclick="loadScene('scenes/gameplay_overlay.html', this)">🎮 GAMEPLAY HUD</button>
+          <button class="hub-btn" onclick="loadScene('scenes/just_chatting.html', this)">💬 JUST CHATTING</button>
+          <button class="hub-btn" onclick="loadScene('scenes/brb.html', this)">⏸ BRB (PAUZA)</button>
+          <button class="hub-btn" onclick="loadScene('scenes/ending.html', this)">🏁 ENDING (KONEC)</button>
+          <button class="hub-btn" onclick="loadScene('components/webcam_frame.html', this)">📷 WEBCAM FRAME</button>
+          <button class="hub-btn" onclick="loadScene('components/alert_box.html', this)">🔔 ALERT BOX</button>
+          <button class="hub-btn" onclick="loadScene('components/chat_box.html', this)">🗨 CHAT BOX</button>
+          <button class="hub-btn" onclick="loadScene('components/stinger_transition.html', this)">⚡ STINGER PŘECHOD</button>
+        </div>
+
+        <!-- 16:9 Screen Container -->
+        <div class="monitor-frame" id="monitor-frame">
+          <iframe id="scene-preview" src="scenes/starting_soon.html"></iframe>
+        </div>
+
+        <!-- Alert Control Deck -->
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px;">
+          <div style="font-family: var(--font-display); font-size: 13px; letter-spacing: 2px; color: var(--neon-cyan);">
+            ⚡ TESTER UPOZORNĚNÍ PRO OBS:
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="hub-btn" style="padding: 6px 14px; font-size: 13px;" onclick="triggerIframeAlert('follow', 'CyberGamer_CZ', 'Sleduje tvůj kanál!')">★ Follow</button>
+            <button class="hub-btn" style="padding: 6px 14px; font-size: 13px;" onclick="triggerIframeAlert('sub', 'VortexCZ', 'Subscribed Tier 1!')">♦ Sub</button>
+            <button class="hub-btn" style="padding: 6px 14px; font-size: 13px;" onclick="triggerIframeAlert('donate', 'Kryštof', 'Daroval 250 Kč!')">⚡ Donate</button>
+            <button class="hub-btn" style="padding: 6px 14px; font-size: 13px;" onclick="triggerIframeAlert('raid', 'Agraelus', 'Raid 2 400 diváků!')">⚔ Raid</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: OBS Settings & Emotes -->
+      <div class="sidebar-col">
+        <!-- OBS Link Info -->
+        <div class="cyber-panel info-card">
+          <div class="info-card-title">
+            <span>🔗 OBS BROWSER SOURCE ODKAZ</span>
+          </div>
+          <p style="font-size: 13px; color: #94a3b8; margin-bottom: 8px;">
+            Zkopíruj tuto cestu do OBS (přidat zdroj <em>Prohlížeč / Browser</em>):
+          </p>
+          <div class="url-box" id="obs-url-display">...</div>
+          <button class="hub-btn hub-btn-cyan" style="width: 100%; justify-content: center;" onclick="copyObsUrl()">
+            📋 ZKOPÍROVAT CESTU DO OBS
+          </button>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: #64748b; margin-top: 10px; line-height: 1.4;">
+            Doporučené nastavení v OBS: <strong>1920 × 1080 px</strong>, <strong>60 FPS</strong>.
+          </div>
+        </div>
+
+        <!-- Emotes Gallery -->
+        <div class="cyber-panel info-card">
+          <div class="info-card-title">
+            <span>🎨 TWITCH & DISCORD EMOTY</span>
+          </div>
+          <div class="emotes-grid">
+            <div class="emote-item">
+              <img src="assets/emotes/mentys_hype_112.png" alt="Hype">
+              <span class="emote-name">mentysHYPE</span>
+              <div class="emote-sizes">
+                <a href="assets/emotes/mentys_hype_112.png" download class="size-link">112px</a>
+                <a href="assets/emotes/mentys_hype_56.png" download class="size-link">56px</a>
+                <a href="assets/emotes/mentys_hype_28.png" download class="size-link">28px</a>
+              </div>
+            </div>
+
+            <div class="emote-item">
+              <img src="assets/emotes/mentys_gg_112.png" alt="GG">
+              <span class="emote-name">mentysGG</span>
+              <div class="emote-sizes">
+                <a href="assets/emotes/mentys_gg_112.png" download class="size-link">112px</a>
+                <a href="assets/emotes/mentys_gg_56.png" download class="size-link">56px</a>
+                <a href="assets/emotes/mentys_gg_28.png" download class="size-link">28px</a>
+              </div>
+            </div>
+
+            <div class="emote-item">
+              <img src="assets/emotes/mentys_rage_112.png" alt="Rage">
+              <span class="emote-name">mentysRAGE</span>
+              <div class="emote-sizes">
+                <a href="assets/emotes/mentys_rage_112.png" download class="size-link">112px</a>
+                <a href="assets/emotes/mentys_rage_56.png" download class="size-link">56px</a>
+                <a href="assets/emotes/mentys_rage_28.png" download class="size-link">28px</a>
+              </div>
+            </div>
+
+            <div class="emote-item">
+              <img src="assets/emotes/mentys_lurk_112.png" alt="Lurk">
+              <span class="emote-name">mentysLURK</span>
+              <div class="emote-sizes">
+                <a href="assets/emotes/mentys_lurk_112.png" download class="size-link">112px</a>
+                <a href="assets/emotes/mentys_lurk_56.png" download class="size-link">56px</a>
+                <a href="assets/emotes/mentys_lurk_28.png" download class="size-link">28px</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentRelPath = 'scenes/starting_soon.html';
+
+    function scaleMonitor() {
+      const frame = document.getElementById('monitor-frame');
+      const iframe = document.getElementById('scene-preview');
+      const w = frame.clientWidth;
+      const scale = w / 1920;
+      iframe.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener('resize', scaleMonitor);
+    window.addEventListener('load', () => {
+      scaleMonitor();
+      updateUrlDisplay();
+    });
+
+    function loadScene(path, btn) {
+      currentRelPath = path;
+      document.getElementById('scene-preview').src = path;
+      document.querySelectorAll('.scene-selector .hub-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      updateUrlDisplay();
+    }
+
+    function updateUrlDisplay() {
+      // Calculate absolute local file URL
+      const loc = window.location.href;
+      const base = loc.substring(0, loc.lastIndexOf('/') + 1);
+      const absUrl = base + currentRelPath;
+      document.getElementById('obs-url-display').textContent = absUrl;
+    }
+
+    function copyObsUrl() {
+      const url = document.getElementById('obs-url-display').textContent;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Cesta byla zkopírována do schránky! Vlož ji do OBS jako Browser Source.');
+      });
+    }
+
+    function openCurrentFullscreen() {
+      window.open(currentRelPath, '_blank');
+    }
+
+    function triggerIframeAlert(type, user, msg) {
+      const iframe = document.getElementById('scene-preview');
+      try {
+        if (iframe.contentWindow && iframe.contentWindow.triggerStreamAlert) {
+          iframe.contentWindow.triggerStreamAlert(type, user, msg);
+        }
+      } catch (e) {
+        console.warn('Iframe cross-origin alert block', e);
+      }
+    }
+  </script>
+</body>
+</html>
