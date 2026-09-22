@@ -24,6 +24,10 @@ system_dashboard/build/
 system_dashboard/dist/
 system_dashboard/__pycache__/
 *.spec
+scratch/
+bounced_list.txt
+original_csv_chunk.txt
+recovered*
 
 # OS files
 Thumbs.db
