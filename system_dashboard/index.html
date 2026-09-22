@@ -80,31 +80,40 @@
        ========================================================================= -->
   <nav class="nav-tabs-bar">
     <button class="nav-tab active" data-tab="overview">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
       </svg>
-      <span>Telemetrie & Výkon</span>
+      <div class="nav-tab-text">
+        <span class="nav-tab-title">1. Přehled výkonu</span>
+        <span class="nav-tab-sub">Zátěž CPU, paměť & disky</span>
+      </div>
     </button>
     <button class="nav-tab" data-tab="processes">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
         <polyline points="2 17 12 22 22 17"></polyline>
         <polyline points="2 12 12 17 22 12"></polyline>
       </svg>
-      <span>Správce procesů</span>
+      <div class="nav-tab-text">
+        <span class="nav-tab-title">2. Běžící programy</span>
+        <span class="nav-tab-sub">Kdo bere výkon (Procesy)</span>
+      </div>
       <span class="badge" id="badge-total-procs">0</span>
     </button>
     <button class="nav-tab" data-tab="connections">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="2" y1="12" x2="22" y2="12"></line>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
       </svg>
-      <span>Síťová spojení</span>
+      <div class="nav-tab-text">
+        <span class="nav-tab-title">3. Internet & Síť</span>
+        <span class="nav-tab-sub">Aktivní síťová spojení</span>
+      </div>
       <span class="badge" id="badge-total-conns">0</span>
     </button>
     <button class="nav-tab" data-tab="specs">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="4" y="4" width="16" height="16" rx="2"></rect>
         <rect x="9" y="9" width="6" height="6"></rect>
         <line x1="9" y1="1" x2="9" y2="4"></line>
@@ -116,7 +125,10 @@
         <line x1="1" y1="9" x2="4" y2="9"></line>
         <line x1="1" y1="15" x2="4" y2="15"></line>
       </svg>
-      <span>Specifikace systému</span>
+      <div class="nav-tab-text">
+        <span class="nav-tab-title">4. O tomto počítači</span>
+        <span class="nav-tab-sub">Hardware & parametry</span>
+      </div>
     </button>
   </nav>
 
@@ -124,6 +136,97 @@
        MAIN APPLICATION WORKSPACE
        ========================================================================= -->
   <main class="app-container">
+
+    <!-- =====================================================================
+         OVERALL SYSTEM HEALTH BANNER (PŘEHLEDNÝ STAV PC)
+         ===================================================================== -->
+    <section class="system-health-banner health-optimal" id="system-health-banner">
+      <div class="health-status-indicator">
+        <div class="health-pulse-wrapper">
+          <span class="health-pulse-dot" id="health-pulse-dot"></span>
+        </div>
+        <div class="health-status-text">
+          <div class="health-title-row">
+            <strong class="health-title" id="health-title">Vše běží hladce a optimálně</strong>
+            <span class="health-pill-badge" id="health-pill">STAV: 100% OK</span>
+          </div>
+          <p class="health-desc" id="health-desc">
+            Procesor i operační paměť mají dostatek volného výkonu. Žádné aplikace nezpomalují chod vašeho počítače.
+          </p>
+        </div>
+      </div>
+      <div class="health-actions">
+        <button class="btn-guide-toggle" id="btn-toggle-guide" title="Zobrazit vysvětlení co co znamená">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Co co znamená?</span>
+        </button>
+        <button class="btn-clean-highlight" id="btn-banner-clean" title="Rychle ukončit nejnáročnější procesy">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+          <span>Vyčistit zátěž</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         INTERACTIVE QUICK GUIDE PANEL (RYCHLÝ PRŮVODCE)
+         ===================================================================== -->
+    <section class="quick-guide-panel" id="quick-guide-panel" style="display: none;">
+      <div class="quick-guide-header">
+        <div class="quick-guide-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--violet-400)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <strong>Průvodce: Jak se v monitoru jednoduše vyznat</strong>
+        </div>
+        <button class="btn-guide-close" id="btn-guide-close" title="Zavřít nápovědu">&times;</button>
+      </div>
+      <div class="quick-guide-grid">
+        <div class="guide-card">
+          <div class="guide-card-head">
+            <span class="guide-tag tag-cpu">CPU</span>
+            <strong>Procesor (Mozek PC)</strong>
+          </div>
+          <p>Provádí veškeré výpočty programů. Běžná hodnota při práci je 5–30 %, při hrách 50–90 %. Pokud je trvale na 100 %, počítač se může zasekávat.</p>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-head">
+            <span class="guide-tag tag-ram">RAM</span>
+            <strong>Operační paměť</strong>
+          </div>
+          <p>Zde se ukládají právě otevřené aplikace a záložky v prohlížeči. Pokud je zaplněna nad 85 %, použijte tlačítko „Vyčistit zátěž“ k uvolnění místa.</p>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-head">
+            <span class="guide-tag tag-disk">DISKY</span>
+            <strong>Pevné disky (Úložiště)</strong>
+          </div>
+          <p>Zobrazuje, kolik volného místa vám zbývá na disku C: a jakou rychlostí se právě zapisují nebo čtou soubory (hry, stahování, systém).</p>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-head">
+            <span class="guide-tag tag-net">SÍŤ</span>
+            <strong>Internet a připojení</strong>
+          </div>
+          <p>Živě ukazuje rychlost stahování (příjem dat) a nahrávání (odesílání). Snadno zde poznáte, zda vám internet nevytěžuje stahování na pozadí.</p>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-head">
+            <span class="guide-tag tag-proc">PROCESY</span>
+            <strong>Správce spuštěných programů</strong>
+          </div>
+          <p>V záložce „2. Běžící programy“ uvidíte všechny aplikace. Pokud nějaký program zamrzne, můžete ho jednoduše jedním kliknutím vypnout.</p>
+        </div>
+      </div>
+    </section>
+
 
     <!-- =====================================================================
          TAB 1: TELEMETRY & PERFORMANCE
@@ -136,17 +239,24 @@
         <!-- CPU Card -->
         <div class="glass-card kpi-card">
           <div class="kpi-header">
-            <span class="kpi-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-                <rect x="9" y="9" width="6" height="6"></rect>
-                <line x1="9" y1="1" x2="9" y2="4"></line>
-                <line x1="15" y1="1" x2="15" y2="4"></line>
-                <line x1="9" y1="20" x2="9" y2="23"></line>
-                <line x1="15" y1="20" x2="15" y2="23"></line>
-              </svg>
-              Procesor (CPU)
-            </span>
+            <div>
+              <span class="kpi-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                  <rect x="9" y="9" width="6" height="6"></rect>
+                  <line x1="9" y1="1" x2="9" y2="4"></line>
+                  <line x1="15" y1="1" x2="15" y2="4"></line>
+                  <line x1="9" y1="20" x2="9" y2="23"></line>
+                  <line x1="15" y1="20" x2="15" y2="23"></line>
+                  <line x1="20" y1="9" x2="23" y2="9"></line>
+                  <line x1="20" y1="15" x2="23" y2="15"></line>
+                  <line x1="1" y1="9" x2="4" y2="9"></line>
+                  <line x1="1" y1="15" x2="4" y2="15"></line>
+                </svg>
+                Procesor (CPU)
+              </span>
+              <span class="kpi-role-tag">Mozek PC // Okamžitá výpočetní zátěž</span>
+            </div>
             <span class="kpi-badge" id="kpi-cpu-freq">0.0 GHz</span>
           </div>
           <div class="kpi-value-row">
@@ -158,7 +268,7 @@
             <div class="progress-fill fill-cpu" id="kpi-cpu-fill"></div>
           </div>
           <div class="kpi-details-row">
-            <span>Zátěž: <strong id="kpi-cpu-procs">0 procesů</strong></span>
+            <span>Běžící úlohy: <strong id="kpi-cpu-procs">0 procesů</strong></span>
             <span id="kpi-cpu-cores-text">12 jader</span>
           </div>
         </div>
@@ -166,16 +276,19 @@
         <!-- RAM Card -->
         <div class="glass-card kpi-card">
           <div class="kpi-header">
-            <span class="kpi-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                <line x1="6" y1="10" x2="6" y2="14"></line>
-                <line x1="10" y1="10" x2="10" y2="14"></line>
-                <line x1="14" y1="10" x2="14" y2="14"></line>
-                <line x1="18" y1="10" x2="18" y2="14"></line>
-              </svg>
-              Operační paměť (RAM)
-            </span>
+            <div>
+              <span class="kpi-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                  <line x1="6" y1="10" x2="6" y2="14"></line>
+                  <line x1="10" y1="10" x2="10" y2="14"></line>
+                  <line x1="14" y1="10" x2="14" y2="14"></line>
+                  <line x1="18" y1="10" x2="18" y2="14"></line>
+                </svg>
+                Operační paměť (RAM)
+              </span>
+              <span class="kpi-role-tag">Místo pro otevřené programy</span>
+            </div>
             <span class="kpi-badge" id="kpi-swap-val">0% swap</span>
           </div>
           <div class="kpi-value-row">
@@ -195,15 +308,18 @@
         <!-- Disky Card -->
         <div class="glass-card kpi-card">
           <div class="kpi-header">
-            <span class="kpi-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="22" y1="12" x2="2" y2="12"></line>
-                <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
-                <line x1="6" y1="16" x2="6.01" y2="16"></line>
-                <line x1="10" y1="16" x2="10.01" y2="16"></line>
-              </svg>
-              Úložiště & Disky
-            </span>
+            <div>
+              <span class="kpi-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="22" y1="12" x2="2" y2="12"></line>
+                  <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                  <line x1="6" y1="16" x2="6.01" y2="16"></line>
+                  <line x1="10" y1="16" x2="10.01" y2="16"></line>
+                </svg>
+                Úložiště & Disky
+              </span>
+              <span class="kpi-role-tag">Volné místo a rychlost přenosu</span>
+            </div>
             <span class="kpi-badge badge-emerald">SSD / HDD</span>
           </div>
           <div class="kpi-value-row" style="margin-bottom: 8px;">
@@ -232,14 +348,17 @@
         <!-- Network Card -->
         <div class="glass-card kpi-card">
           <div class="kpi-header">
-            <span class="kpi-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              </svg>
-              Internet & Síť
-            </span>
+            <div>
+              <span class="kpi-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                Internet & Síť
+              </span>
+              <span class="kpi-role-tag">Rychlost stahování a odesílání</span>
+            </div>
             <span class="kpi-badge" id="kpi-net-adapter">LAN</span>
           </div>
           <div class="kpi-value-row" style="margin-bottom: 8px;">
@@ -357,6 +476,21 @@
          ===================================================================== -->
     <section class="tab-content" id="tab-processes">
       
+      <!-- Friendly Explainer Banner -->
+      <div class="tab-explainer-banner">
+        <div class="tab-explainer-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </div>
+        <div class="tab-explainer-content">
+          <strong>Jak funguje správce běžících programů:</strong>
+          <span>Zde vidíte všechny aplikace běžící na vašem počítači. Můžete je vyhledávat, filtrovat a seřadit podle zátěže procesoru (CPU) nebo paměti (RAM). Pokud nějaká aplikace zamrzne nebo zpomaluje PC, stačí kliknout na červené tlačítko <strong>„Ukončit“</strong>. Kritické součásti Windows jsou automaticky chráněny.</span>
+        </div>
+      </div>
+
       <!-- Process Toolbar -->
       <div class="process-toolbar">
         <div class="search-box">
@@ -364,18 +498,18 @@
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" class="search-input" id="process-search-input" placeholder="Hledat proces podle názvu nebo PID... (Klávesa '/')">
+          <input type="text" class="search-input" id="process-search-input" placeholder="Hledat program podle názvu nebo čísla PID... (Klávesa '/')">
         </div>
 
         <div class="filter-pills">
-          <button class="filter-pill active" data-filter="all">Všechny procesy</button>
+          <button class="filter-pill active" data-filter="all">Všechny programy</button>
           <button class="filter-pill" data-filter="high_cpu">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            Vysoké CPU (&gt;2%)
+            Žrouti CPU (&gt;2%)
           </button>
           <button class="filter-pill" data-filter="high_mem">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="6" y1="10" x2="6" y2="14"></line></svg>
-            Vysoká RAM (&gt;150MB)
+            Žrouti RAM (&gt;150MB)
           </button>
         </div>
 
@@ -395,14 +529,14 @@
           <thead>
             <tr>
               <th style="width:40px;"></th>
-              <th data-sort="pid">PID</th>
-              <th data-sort="name">Název procesu</th>
-              <th data-sort="cpu" class="sorted-desc">CPU %</th>
-              <th data-sort="memory">RAM (MB)</th>
-              <th>RAM %</th>
+              <th data-sort="pid">PID (Kód)</th>
+              <th data-sort="name">Název programu</th>
+              <th data-sort="cpu" class="sorted-desc">Zátěž CPU %</th>
+              <th data-sort="memory">Paměť RAM (MB)</th>
+              <th>Podíl RAM %</th>
               <th>Vlákna</th>
               <th>Uživatel</th>
-              <th style="text-align:right;">Akce</th>
+              <th style="text-align:right;">Rychlá akce</th>
             </tr>
           </thead>
           <tbody id="process-table-body">
@@ -418,16 +552,31 @@
          ===================================================================== -->
     <section class="tab-content" id="tab-connections">
       
+      <!-- Friendly Explainer Banner -->
+      <div class="tab-explainer-banner">
+        <div class="tab-explainer-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </div>
+        <div class="tab-explainer-content">
+          <strong>Jak fungují síťová spojení:</strong>
+          <span>Přehled všech aplikací, které právě odesílají nebo přijímají data přes internet či místní síť. <strong>ESTABLISHED</strong> znamená aktivní přenos dat, <strong>LISTEN</strong> značí program čekající na příchozí dotaz. Můžete si snadno zkontrolovat, kam která aplikace posílá data.</span>
+        </div>
+      </div>
+
       <div class="table-container">
         <table class="cyber-table">
           <thead>
             <tr>
-              <th>Typ</th>
-              <th>Místní adresa:port</th>
-              <th>Vzdálená adresa:port</th>
+              <th>Protokol</th>
+              <th>Tento počítač (Místní)</th>
+              <th>Cílová adresa (Internet)</th>
               <th>Stav spojení</th>
               <th>PID</th>
-              <th>Název procesu</th>
+              <th>Aplikace / Program</th>
               <th style="text-align:right;">Akce</th>
             </tr>
           </thead>
@@ -444,6 +593,21 @@
          ===================================================================== -->
     <section class="tab-content" id="tab-specs">
       
+      <!-- Friendly Explainer Banner -->
+      <div class="tab-explainer-banner">
+        <div class="tab-explainer-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--violet-400)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </div>
+        <div class="tab-explainer-content">
+          <strong>O tomto počítači (Hardware):</strong>
+          <span>Kompletní technické parametry vašeho počítače – model procesoru, počet fyzických a logických jader, celková kapacita operační paměti RAM a přesná verze operačního systému Windows.</span>
+        </div>
+      </div>
+
       <div class="glass-card specs-card-container">
         <div class="kpi-header" style="margin-bottom:16px;">
           <span class="kpi-title">

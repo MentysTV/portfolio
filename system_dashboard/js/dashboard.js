@@ -73,6 +73,16 @@
     connectionsTableBody: document.getElementById('connections-table-body'),
     connectionsCount: document.getElementById('badge-total-conns'),
 
+    // Health Banner & Guide
+    healthBanner: document.getElementById('system-health-banner'),
+    healthTitle: document.getElementById('health-title'),
+    healthDesc: document.getElementById('health-desc'),
+    healthPill: document.getElementById('health-pill'),
+    btnToggleGuide: document.getElementById('btn-toggle-guide'),
+    btnGuideClose: document.getElementById('btn-guide-close'),
+    quickGuidePanel: document.getElementById('quick-guide-panel'),
+    btnBannerClean: document.getElementById('btn-banner-clean'),
+
     // Modals
     processModal: document.getElementById('process-detail-modal'),
     modalProcName: document.getElementById('modal-proc-name'),
@@ -302,6 +312,33 @@
     }
   }
 
+  function updateHealthBanner(cpuPercent, ramPercent) {
+    if (!DOM.healthBanner) return;
+
+    if (cpuPercent > 80 || ramPercent > 88) {
+      DOM.healthBanner.className = 'system-health-banner health-critical';
+      if (DOM.healthTitle) DOM.healthTitle.textContent = 'Pozor: Počítač je silně vytížený';
+      if (DOM.healthDesc) {
+        DOM.healthDesc.textContent = `Vysoká zátěž: Procesor ${Math.round(cpuPercent)} %, Paměť RAM ${Math.round(ramPercent)} %. Doporučujeme kliknout na „Vyčistit zátěž“ a ukončit nepotřebné programy.`;
+      }
+      if (DOM.healthPill) DOM.healthPill.textContent = 'STAV: VYSOKÁ ZÁTĚŽ';
+    } else if (cpuPercent > 45 || ramPercent > 70) {
+      DOM.healthBanner.className = 'system-health-banner health-warning';
+      if (DOM.healthTitle) DOM.healthTitle.textContent = 'Zvýšená zátěž počítače';
+      if (DOM.healthDesc) {
+        DOM.healthDesc.textContent = `Systém běží, ale paměť (${Math.round(ramPercent)} %) nebo procesor (${Math.round(cpuPercent)} %) pracují intenzivněji. Pokud se PC zpomaluje, zkontrolujte běžící programy.`;
+      }
+      if (DOM.healthPill) DOM.healthPill.textContent = 'STAV: ZVÝŠENÁ ZÁTĚŽ';
+    } else {
+      DOM.healthBanner.className = 'system-health-banner health-optimal';
+      if (DOM.healthTitle) DOM.healthTitle.textContent = 'Vše běží hladce a optimálně';
+      if (DOM.healthDesc) {
+        DOM.healthDesc.textContent = `Procesor (${Math.round(cpuPercent)} %) i operační paměť (${Math.round(ramPercent)} %) mají dostatek volného výkonu. Žádný program nezpomaluje počítač.`;
+      }
+      if (DOM.healthPill) DOM.healthPill.textContent = 'STAV: 100% V POŘÁDKU';
+    }
+  }
+
   function updateSystemUI(data) {
     if (!data) return;
 
@@ -353,6 +390,9 @@
     if (ramTotalEl) {
       ramTotalEl.textContent = `z celkem ${formatBytes(ram.total)}`;
     }
+
+    // Update Overall System Health Banner
+    updateHealthBanner(cpuTotal, ram.percent);
 
     // Disks
     const diskIo = data.disk_io;
@@ -447,29 +487,64 @@
 
   function populateSystemSpecs(data) {
     const sys = data.system;
-    const specsMap = [
-      { label: 'Operační systém', val: `${sys.os} (${sys.build})` },
-      { label: 'Architektura procesoru', val: sys.arch },
-      { label: 'Procesor (Model)', val: sys.cpu_model },
-      { label: 'Jádra CPU', val: `${sys.physical_cores} Fyzických / ${sys.logical_cores} Logických vláken` },
-      { label: 'Hostitelský název (PC Name)', val: sys.hostname },
-      { label: 'Celková operační paměť (RAM)', val: formatBytes(data.memory.total) },
-      { label: 'Swap / Stránkovací soubor', val: formatBytes(data.memory.swap_total) },
-      { label: 'Čas spuštění systému (Boot)', val: data.boot_time }
+    const groups = [
+      {
+        category: '🖥️ Počítač & Systém',
+        items: [
+          { label: 'Název počítače (Hostname)', val: sys.hostname },
+          { label: 'Operační systém', val: `${sys.os} (Build ${sys.build})` },
+          { label: 'Architektura procesoru', val: sys.arch }
+        ]
+      },
+      {
+        category: '⚡ Procesor (CPU)',
+        items: [
+          { label: 'Model procesoru', val: sys.cpu_model },
+          { label: 'Fyzická jádra', val: `${sys.physical_cores} jader` },
+          { label: 'Logická vlákna', val: `${sys.logical_cores} vláken` }
+        ]
+      },
+      {
+        category: '💾 Paměť & Úložiště',
+        items: [
+          { label: 'Fyzická paměť RAM', val: formatBytes(data.memory.total) },
+          { label: 'Swap / Stránkovací soubor', val: formatBytes(data.memory.swap_total) }
+        ]
+      },
+      {
+        category: '⏱️ Provoz & Spuštění',
+        items: [
+          { label: 'Doba nepřetržitého běhu', val: formatUptime(data.uptime) },
+          { label: 'Čas spuštění systému (Boot)', val: data.boot_time }
+        ]
+      }
     ];
 
     const container = document.getElementById('system-specs-container');
     if (!container) return;
     container.innerHTML = '';
-    specsMap.forEach(item => {
-      const row = document.createElement('div');
-      row.className = 'spec-item';
-      row.innerHTML = `
-        <span class="spec-label">${item.label}</span>
-        <span class="spec-val">${item.val}</span>
+
+    const grid = document.createElement('div');
+    grid.className = 'specs-category-grid';
+
+    groups.forEach(g => {
+      const card = document.createElement('div');
+      card.className = 'spec-category-card';
+      card.innerHTML = `
+        <h3 class="spec-category-title">${g.category}</h3>
+        <div class="spec-items-list">
+          ${g.items.map(it => `
+            <div class="spec-item">
+              <span class="spec-label">${it.label}</span>
+              <span class="spec-val">${it.val}</span>
+            </div>
+          `).join('')}
+        </div>
       `;
-      container.appendChild(row);
+      grid.appendChild(card);
     });
+
+    container.appendChild(grid);
   }
 
   // =========================================================================
@@ -875,8 +950,28 @@
       if (e.target === DOM.hogsModal) DOM.hogsModal.classList.remove('active');
     });
 
-    // Clean Hogs Button
+    // Clean Hogs Buttons
     DOM.btnOpenHogs.addEventListener('click', openHogsModal);
+    if (DOM.btnBannerClean) {
+      DOM.btnBannerClean.addEventListener('click', openHogsModal);
+    }
+
+    // Toggle Quick Guide Panel
+    if (DOM.btnToggleGuide && DOM.quickGuidePanel) {
+      DOM.btnToggleGuide.addEventListener('click', () => {
+        const isHidden = DOM.quickGuidePanel.style.display === 'none' || !DOM.quickGuidePanel.style.display;
+        DOM.quickGuidePanel.style.display = isHidden ? 'block' : 'none';
+        if (isHidden) {
+          DOM.quickGuidePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    if (DOM.btnGuideClose && DOM.quickGuidePanel) {
+      DOM.btnGuideClose.addEventListener('click', () => {
+        DOM.quickGuidePanel.style.display = 'none';
+      });
+    }
 
     DOM.btnKillHogsConfirm.addEventListener('click', () => {
       const selectedHogPids = [];
